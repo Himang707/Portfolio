@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-gt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a100b" />
+      <stop offset="50%" stop-color="#070a07" />
+      <stop offset="100%" stop-color="#030503" />
+    </linearGradient>
+    <radialGradient id="map-radar" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#477A1E" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#2a4a12" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="480" fill="url(#bg-grad-gt)" />
+
+  <!-- Ambient Radar -->
+  <circle cx="480" cy="240" r="210" fill="url(#map-radar)" />
+
+  <!-- Top bar -->
+  <rect x="40" y="35" width="720" height="44" rx="8" fill="#0d140d" stroke="#477A1E" stroke-opacity="0.3" stroke-width="1.2"/>
+  <circle cx="65" cy="57" r="5" fill="#477A1E" />
+  <circle cx="82" cy="57" r="5" fill="#477A1E" />
+  <circle cx="99" cy="57" r="5" fill="#243d10" />
+  <text x="130" y="62" fill="#88a37b" font-family="monospace" font-size="12" letter-spacing="1">GLOBETROTTER // GEO_GRAPH_V1.8 :: [POSTGRES_LATENCY: 18ms]</text>
+  <text x="650" y="62" fill="#75bb36" font-family="monospace" font-size="11" font-weight="bold">SYNCED</text>
+
+  <!-- Left Column: Itinerary Graph Node Flow -->
+  <rect x="40" y="95" width="280" height="345" rx="8" fill="#090f09" stroke="#477A1E" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="60" y="125" fill="#a4bfa0" font-family="monospace" font-size="11" font-weight="bold">> TRIP ROUTE GRAPH</text>
+
+  <!-- Route steps -->
+  <g transform="translate(60, 145)">
+    <circle cx="12" cy="12" r="8" fill="#182911" stroke="#6fb332" stroke-width="2"/>
+    <text x="12" y="16" fill="#fff" font-family="monospace" font-size="9" text-anchor="middle">1</text>
+    <line x1="12" y1="20" x2="12" y2="70" stroke="#477A1E" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="32" y="14" fill="#f0f5ee" font-family="sans-serif" font-size="13" font-weight="bold">Reykjavik Hub</text>
+    <text x="32" y="30" fill="#7f9977" font-family="monospace" font-size="10">Geo: 64.1466° N, 21.9426° W</text>
+  </g>
+
+  <g transform="translate(60, 220)">
+    <circle cx="12" cy="12" r="8" fill="#182911" stroke="#6fb332" stroke-width="2"/>
+    <text x="12" y="16" fill="#fff" font-family="monospace" font-size="9" text-anchor="middle">2</text>
+    <line x1="12" y1="20" x2="12" y2="70" stroke="#477A1E" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="32" y="14" fill="#f0f5ee" font-family="sans-serif" font-size="13" font-weight="bold">Vík Coastal Ridge</text>
+    <text x="32" y="30" fill="#7f9977" font-family="monospace" font-size="10">Geo: 63.4186° N, 19.0060° W</text>
+  </g>
+
+  <g transform="translate(60, 295)">
+    <circle cx="12" cy="12" r="8" fill="#2e4c14" stroke="#8cd14b" stroke-width="2"/>
+    <text x="12" y="16" fill="#fff" font-family="monospace" font-size="9" text-anchor="middle">3</text>
+    <text x="32" y="14" fill="#f0f5ee" font-family="sans-serif" font-size="13" font-weight="bold">Höfn Fjords</text>
+    <text x="32" y="30" fill="#7f9977" font-family="monospace" font-size="10">Waypoint: Glacier Passage</text>
+  </g>
+
+  <!-- Query metric pill on left -->
+  <rect x="60" y="375" width="240" height="42" rx="6" fill="#101810" stroke="#477A1E" stroke-opacity="0.3"/>
+  <text x="72" y="394" fill="#6ba34a" font-family="monospace" font-size="10">POSTGIS SPATIAL_INDEX</text>
+  <text x="72" y="408" fill="#a4bfa0" font-family="monospace" font-size="10">R-TREE: 1,420 POIs in 50km</text>
+
+  <!-- Right: Dynamic Geospatial Constellation / Waypoint Map -->
+  <rect x="340" y="95" width="420" height="345" rx="8" fill="#080e08" stroke="#477A1E" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="360" y="125" fill="#a4bfa0" font-family="monospace" font-size="11" font-weight="bold">> INTERACTIVE GEOSPATIAL RADAR</text>
+
+  <!-- Concentric Radar Rings -->
+  <circle cx="550" cy="265" r="50" fill="none" stroke="#477A1E" stroke-opacity="0.2" stroke-width="1"/>
+  <circle cx="550" cy="265" r="100" fill="none" stroke="#477A1E" stroke-opacity="0.18" stroke-width="1"/>
+  <circle cx="550" cy="265" r="150" fill="none" stroke="#477A1E" stroke-opacity="0.12" stroke-width="1"/>
+  <line x1="550" y1="115" x2="550" y2="415" stroke="#477A1E" stroke-opacity="0.1" stroke-width="1"/>
+  <line x1="400" y1="265" x2="700" y2="265" stroke="#477A1E" stroke-opacity="0.1" stroke-width="1"/>
+
+  <!-- Flight/Drive paths connecting points -->
+  <path d="M 450 310 Q 520 220 590 240 T 670 190" fill="none" stroke="#6fb332" stroke-width="2.5" stroke-dasharray="5,3"/>
+
+  <!-- Radar Pins -->
+  <circle cx="450" cy="310" r="10" fill="#1c2e14" stroke="#75bb36" stroke-width="2"/>
+  <circle cx="450" cy="310" r="3" fill="#e7f5de"/>
+  <text x="430" y="335" fill="#d2e3cc" font-family="monospace" font-size="9">STATION_A</text>
+
+  <circle cx="590" cy="240" r="12" fill="#28441b" stroke="#8cd14b" stroke-width="2"/>
+  <circle cx="590" cy="240" r="4" fill="#ffffff"/>
+  <text x="608" y="244" fill="#f0fae8" font-family="monospace" font-size="10" font-weight="bold">ACTIVE_ROUTE</text>
+
+  <circle cx="670" cy="190" r="10" fill="#1c2e14" stroke="#75bb36" stroke-width="2"/>
+  <circle cx="670" cy="190" r="3" fill="#e7f5de"/>
+  <text x="655" y="215" fill="#d2e3cc" font-family="monospace" font-size="9">TARGET_B</text>
+
+  <!-- Nearby Waypoints -->
+  <circle cx="500" cy="180" r="4" fill="#477A1E"/>
+  <circle cx="620" cy="320" r="4" fill="#477A1E"/>
+  <circle cx="530" cy="340" r="5" fill="#5fa329"/>
+  <circle cx="640" cy="150" r="3" fill="#3b691a"/>
+
+  <!-- Telemetry overlay -->
+  <rect x="360" y="380" width="380" height="42" rx="4" fill="#0d140d" fill-opacity="0.85" stroke="#477A1E" stroke-opacity="0.25"/>
+  <text x="375" y="398" fill="#6ba34a" font-family="monospace" font-size="10">TOTAL DISTANCE: 486.2 KM</text>
+  <text x="560" y="398" fill="#6ba34a" font-family="monospace" font-size="10">EST. BUDGET: $1,240</text>
+  <text x="375" y="413" fill="#9db893" font-family="monospace" font-size="9">COLLABORATORS: 3 ONLINE // AUTO-SAVE: TRIGGERED</text>
+</svg>

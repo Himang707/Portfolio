@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-relay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f0a" />
+      <stop offset="50%" stop-color="#060906" />
+      <stop offset="100%" stop-color="#040604" />
+    </linearGradient>
+    <linearGradient id="relay-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#477A1E" />
+      <stop offset="100%" stop-color="#70af31" />
+    </linearGradient>
+    <linearGradient id="node-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#559922" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#2a4a12" stop-opacity="0.2"/>
+    </linearGradient>
+    <pattern id="grid-relay" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#477A1E" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="url(#bg-grad-relay)" />
+  <rect width="800" height="480" fill="url(#grid-relay)" />
+
+  <!-- Ambient Glow -->
+  <circle cx="580" cy="180" r="220" fill="#477A1E" fill-opacity="0.12" filter="blur(60px)"/>
+  <circle cx="200" cy="320" r="180" fill="#2e4c14" fill-opacity="0.18" filter="blur(50px)"/>
+
+  <!-- Console Header Bar -->
+  <rect x="40" y="35" width="720" height="44" rx="8" fill="#0d140d" stroke="#477A1E" stroke-opacity="0.3" stroke-width="1.2"/>
+  <circle cx="65" cy="57" r="5" fill="#e05252" fill-opacity="0.8"/>
+  <circle cx="82" cy="57" r="5" fill="#e5b83b" fill-opacity="0.8"/>
+  <circle cx="99" cy="57" r="5" fill="#477A1E" />
+  <text x="130" y="62" fill="#88a37b" font-family="monospace" font-size="12" letter-spacing="1">RELAY // CONTEXT_ENGINE_V2.4 :: [QUERY_LATENCY: 94ms]</text>
+  <rect x="680" y="47" width="60" height="20" rx="4" fill="#1c2b14" stroke="#477A1E" stroke-width="1"/>
+  <text x="693" y="61" fill="#75bb36" font-family="monospace" font-size="10" font-weight="bold">ACTIVE</text>
+
+  <!-- Left Panel: Context Search & Vector Map -->
+  <rect x="40" y="95" width="340" height="345" rx="8" fill="#0b110b" stroke="#477A1E" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="60" y="125" fill="#a4bfa0" font-family="monospace" font-size="11" font-weight="bold">> SEMANTIC SEARCH INGEST</text>
+
+  <!-- Search Input Mock -->
+  <rect x="60" y="140" width="300" height="36" rx="6" fill="#121b12" stroke="#477A1E" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="75" y="163" fill="#e3ebe0" font-family="monospace" font-size="12">"extract multimodal embedding cluster 0x8F"</text>
+
+  <!-- Result Items -->
+  <g transform="translate(60, 195)">
+    <rect width="300" height="60" rx="6" fill="#101810" stroke="#477A1E" stroke-opacity="0.35"/>
+    <rect x="0" y="0" width="4" height="60" rx="2" fill="#559922"/>
+    <text x="16" y="24" fill="#f0f5ee" font-family="sans-serif" font-size="13" font-weight="bold">doc_architecture_spec.pdf</text>
+    <text x="16" y="44" fill="#7f9977" font-family="monospace" font-size="10">Similarity: 0.984 • 12 chunks synthesized</text>
+  </g>
+
+  <g transform="translate(60, 268)">
+    <rect width="300" height="60" rx="6" fill="#0d140d" stroke="#2e4c14" stroke-opacity="0.4"/>
+    <rect x="0" y="0" width="4" height="60" rx="2" fill="#385b19"/>
+    <text x="16" y="24" fill="#cdd8c8" font-family="sans-serif" font-size="13" font-weight="600">auth_pipeline_notes.md</text>
+    <text x="16" y="44" fill="#698063" font-family="monospace" font-size="10">Similarity: 0.921 • 6 chunks synthesized</text>
+  </g>
+
+  <g transform="translate(60, 341)">
+    <rect width="300" height="60" rx="6" fill="#0d140d" stroke="#2e4c14" stroke-opacity="0.4"/>
+    <text x="16" y="24" fill="#9db097" font-family="sans-serif" font-size="13">api_rate_limits.json</text>
+    <text x="16" y="44" fill="#5c7057" font-family="monospace" font-size="10">Similarity: 0.884 • 3 chunks synthesized</text>
+  </g>
+
+  <!-- Right Panel: High-dimensional Knowledge Graph Visualizer -->
+  <rect x="400" y="95" width="360" height="345" rx="8" fill="#090e09" stroke="#477A1E" stroke-opacity="0.25" stroke-width="1"/>
+  <text x="420" y="125" fill="#a4bfa0" font-family="monospace" font-size="11" font-weight="bold">> VECTOR TOPOLOGY GRAPH [K-MEANS: K=8]</text>
+
+  <!-- Graph Connections -->
+  <path d="M 580 230 L 480 180 M 580 230 L 680 170 M 580 230 L 520 320 M 580 230 L 670 310 M 480 180 L 450 250 M 680 170 L 710 240 M 520 320 L 600 370 M 670 310 L 600 370"
+        stroke="#477A1E" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- Graph Nodes -->
+  <circle cx="580" cy="230" r="18" fill="url(#node-glow)" stroke="#6fb332" stroke-width="2"/>
+  <circle cx="580" cy="230" r="6" fill="#e7f5de"/>
+  <text x="548" y="262" fill="#d2e3cc" font-family="monospace" font-size="10" font-weight="bold">ROOT_NODE</text>
+
+  <circle cx="480" cy="180" r="12" fill="#182911" stroke="#477A1E" stroke-width="1.5"/>
+  <circle cx="480" cy="180" r="4" fill="#75bb36"/>
+
+  <circle cx="680" cy="170" r="14" fill="#182911" stroke="#477A1E" stroke-width="1.5"/>
+  <circle cx="680" cy="170" r="4" fill="#75bb36"/>
+
+  <circle cx="520" cy="320" r="10" fill="#182911" stroke="#477A1E" stroke-width="1.5"/>
+  <circle cx="520" cy="320" r="3" fill="#75bb36"/>
+
+  <circle cx="670" cy="310" r="12" fill="#182911" stroke="#477A1E" stroke-width="1.5"/>
+  <circle cx="670" cy="310" r="4" fill="#75bb36"/>
+
+  <circle cx="450" cy="250" r="8" fill="#111d0c" stroke="#365c17" stroke-width="1"/>
+  <circle cx="710" cy="240" r="8" fill="#111d0c" stroke="#365c17" stroke-width="1"/>
+  <circle cx="600" cy="370" r="9" fill="#111d0c" stroke="#365c17" stroke-width="1"/>
+
+  <!-- Micro telemetry overlay on bottom right -->
+  <rect x="420" y="380" width="320" height="42" rx="4" fill="#0d140d" fill-opacity="0.8" stroke="#477A1E" stroke-opacity="0.2"/>
+  <text x="432" y="398" fill="#6ba34a" font-family="monospace" font-size="10">DIMENSIONS: 1536</text>
+  <text x="560" y="398" fill="#6ba34a" font-family="monospace" font-size="10">INDEX: HNSW</text>
+  <text x="432" y="413" fill="#9db893" font-family="monospace" font-size="9">TOKENS INGESTED: 4,821,900 // REINDEX: PASS</text>
+</svg>

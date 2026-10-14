@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================
+   NEO-BRUTALIST DESIGN TOKENS
+   Ivory background, crisp black outlines, offset hard shadows,
+   pastel yellow, blue, pink, and lavender accents.
+================================================================ */
+:root {
+  --bg-ivory: #FAF7F0;
+  --bg-card: #FFFFFF;
+  --text-main: #111111;
+  --text-muted: #4B5563;
+  --outline: #111111;
+
+  /* Pastel Palette */
+  --pastel-yellow: #FFE57F;
+  --pastel-blue: #A5D8FF;
+  --pastel-pink: #FFAEC8;
+  --pastel-lavender: #D8B4FE;
+  --pastel-mint: #A7F3D0;
+  --pastel-peach: #FFD8A8;
+
+  /* Fonts */
+  --font-space: 'Space Grotesk', system-ui, sans-serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-ivory);
+  color: var(--text-main);
+}
+
+body {
+  background-color: var(--bg-ivory);
+  color: var(--text-main);
+  font-family: var(--font-space);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--pastel-yellow);
+  color: #000000;
+}
+
+/* ================================================================
+   NEO-BRUTALIST UTILITIES
+================================================================ */
+.font-space {
+  font-family: var(--font-space);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+/* Hard Shadows */
+.brutal-shadow-xs {
+  box-shadow: 2px 2px 0px #111111;
+}
+
+.brutal-shadow-sm {
+  box-shadow: 3px 3px 0px #111111;
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px #111111;
+}
+
+.brutal-shadow-md {
+  box-shadow: 6px 6px 0px #111111;
+}
+
+.brutal-shadow-lg {
+  box-shadow: 8px 8px 0px #111111;
+}
+
+.brutal-shadow-xl {
+  box-shadow: 12px 12px 0px #111111;
+}
+
+/* Colored Hard Shadows */
+.brutal-shadow-pink {
+  box-shadow: 5px 5px 0px var(--pastel-pink);
+}
+
+.brutal-shadow-blue {
+  box-shadow: 5px 5px 0px var(--pastel-blue);
+}
+
+.brutal-shadow-yellow {
+  box-shadow: 5px 5px 0px var(--pastel-yellow);
+}
+
+/* Interactive Brutalist Button */
+.brutal-btn {
+  border: 2px solid #111111;
+  box-shadow: 4px 4px 0px #111111;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.4, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #111111;
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #111111;
+}
+
+/* Interactive Brutalist Card */
+.brutal-card {
+  background-color: #FFFFFF;
+  border: 2px solid #111111;
+  box-shadow: 5px 5px 0px #111111;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+.brutal-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #111111;
+}
+
+/* Highlight marker behind text */
+.highlight-yellow {
+  background-color: var(--pastel-yellow);
+  position: relative;
+  display: inline-block;
+  padding: 0 0.25em;
+  border: 2px solid #111111;
+  box-shadow: 3px 3px 0px #111111;
+  transform: rotate(-1.5deg);
+}
+
+/* Scrapbook sticker badge */
+.scrapbook-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border: 2px solid #111111;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0px #111111;
+  user-select: none;
+}
+
+/* Subtle gentle floating animation for scrapbook stickers */
+@keyframes sticker-bob {
+  0%, 100% {
+    transform: translateY(0px) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-4px) rotate(calc(var(--rot, 0deg) + 1deg));
+  }
+}
+
+.animate-sticker-bob {
+  animation: sticker-bob 3.6s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F0;
+  border-left: 2px solid #111111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFE57F;
+  border: 2px solid #111111;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFAEC8;
+}
+
+/* Bottom Ticker Marquee animation */
+@keyframes brutal-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  width: max-content;
+  animation: brutal-marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
