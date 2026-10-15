@@ -39,11 +39,10 @@ const MILESTONES: Milestone[] = [
 
 const CUTE_FLOATERS = [
   { emoji: "⚡", top: "10%", left: "7%", size: "text-2xl sm:text-3xl", rot: "-12deg", delay: "0s" },
-  { emoji: "🏎️", top: "16%", left: "88%", size: "text-2xl sm:text-3xl", rot: "15deg", delay: "0.4s" },
+  { emoji: "🏎️", top: "15%", left: "86%", size: "text-4xl sm:text-5xl", rot: "15deg", delay: "0.4s" },
   { emoji: "🌸", top: "25%", left: "11%", size: "text-xl sm:text-2xl", rot: "10deg", delay: "0.8s" },
   { emoji: "⭐", top: "34%", left: "91%", size: "text-2xl sm:text-3xl", rot: "-10deg", delay: "0.2s" },
   { emoji: "☕", top: "70%", left: "6%", size: "text-2xl sm:text-3xl", rot: "8deg", delay: "1.1s" },
-  { emoji: "💨", top: "76%", left: "90%", size: "text-xl sm:text-2xl", rot: "-15deg", delay: "0.5s" },
   { emoji: "✦", top: "86%", left: "14%", size: "text-xl sm:text-2xl", rot: "14deg", delay: "0.3s" },
   { emoji: "🚀", top: "82%", left: "80%", size: "text-2xl sm:text-3xl", rot: "18deg", delay: "0.9s" },
   { emoji: "🏁", top: "12%", left: "50%", size: "text-xl sm:text-2xl", rot: "-6deg", delay: "0.6s" },
@@ -245,8 +244,9 @@ export default function LoadingScreen() {
             <div className="absolute inset-4 rounded-full bg-[#FFE57F]/65 blur-xl pointer-events-none" />
 
             {/* Cute floating badges beside mascot */}
-            <div className="hidden md:flex absolute -left-14 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
-              🏎️ 0-60 in 0.4s
+            <div className="hidden md:flex items-center gap-1.5 absolute -left-16 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
+              <span className="text-xl sm:text-2xl">🏎️</span>
+              <span>0-60 in 0.4s</span>
             </div>
             <div className="hidden md:flex absolute -right-14 top-10 bg-[#FFAEC8] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs rotate-6">
               ☕ Powered by Chai
@@ -399,7 +399,34 @@ export default function LoadingScreen() {
         </div>
 
         {/* Bottom Section: Segmented 25% Tachometer Bar & Controls */}
-        <div className="w-full pt-3 sm:pt-4 border-t-2 border-black/10">
+        <div className="w-full pt-2 sm:pt-3 border-t-2 border-black/10">
+          {/* Big Animated Racing Car Track Runner */}
+          <div className="relative w-full h-12 mb-1 select-none pointer-events-none">
+            <div
+              className="absolute -top-2 transition-all duration-100 ease-out flex items-center"
+              style={{
+                left: `clamp(0px, calc(${progress}% - 40px), calc(100% - 56px))`,
+              }}
+            >
+              {/* Exhaust Smoke Trail */}
+              {progress > 5 && (
+                <span className="text-lg sm:text-xl mr-1 animate-pulse opacity-80 select-none">
+                  💨
+                </span>
+              )}
+              {/* Big High-Impact Racing Car */}
+              <span className="text-4xl sm:text-5xl drop-shadow-md select-none inline-block filter transform transition-transform">
+                🏎️
+              </span>
+              {/* Turbo Spark at High Speed */}
+              {progress >= 75 && (
+                <span className="text-base text-[#FFE57F] animate-ping ml-0.5 select-none font-bold">
+                  ⚡
+                </span>
+              )}
+            </div>
+          </div>
+
           {/* Segmented Candy-Striped Progress Bar with 25% Notch Lines */}
           <div className="relative w-full h-7 sm:h-8 bg-[#FAF7F0] border-3 border-black rounded-full p-1 shadow-brutal-xs overflow-hidden mb-3">
             {/* 25%, 50%, 75% quadrant divider notches */}
@@ -412,9 +439,9 @@ export default function LoadingScreen() {
               className="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-100 ease-out flex items-center justify-end pr-2 relative z-10"
               style={{ width: `${progress}%` }}
             >
-              {progress > 10 && (
-                <span className="text-xs sm:text-sm select-none pointer-events-none drop-shadow">
-                  🏎️
+              {progress > 8 && (
+                <span className="text-xs select-none pointer-events-none font-bold text-black/70">
+                  ⚡
                 </span>
               )}
             </div>

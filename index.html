@@ -247,7 +247,7 @@
 
     <!-- Floating cute symbols drifting across the background -->
     <span class="absolute text-2xl sm:text-3xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 10%; left: 7%; transform: rotate(-12deg); animation-delay: 0s;">⚡</span>
-    <span class="absolute text-2xl sm:text-3xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 16%; left: 88%; transform: rotate(15deg); animation-delay: 0.4s;">🏎️</span>
+    <span class="absolute text-4xl sm:text-5xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 16%; left: 88%; transform: rotate(15deg); animation-delay: 0.4s;">🏎️</span>
     <span class="absolute text-xl sm:text-2xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 25%; left: 11%; transform: rotate(10deg); animation-delay: 0.8s;">🌸</span>
     <span class="absolute text-2xl sm:text-3xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 34%; left: 91%; transform: rotate(-10deg); animation-delay: 0.2s;">⭐</span>
     <span class="absolute text-2xl sm:text-3xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 70%; left: 6%; transform: rotate(8deg); animation-delay: 1.1s;">☕</span>
@@ -307,8 +307,9 @@
           <div class="absolute inset-4 rounded-full bg-[#FFE57F]/65 blur-xl pointer-events-none"></div>
 
           <!-- Cute floating badges beside mascot -->
-          <div class="hidden md:flex absolute -left-14 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
-            🏎️ 0-60 in 0.4s
+          <div class="hidden md:flex items-center gap-1.5 absolute -left-16 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
+            <span class="text-xl sm:text-2xl">🏎️</span>
+            <span>0-60 in 0.4s</span>
           </div>
           <div class="hidden md:flex absolute -right-14 top-10 bg-[#FFAEC8] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs rotate-6">
             ☕ Powered by Chai
@@ -445,7 +446,23 @@
       </div>
 
       <!-- Bottom Section: Segmented 25% Tachometer Bar & Controls -->
-      <div class="w-full pt-3 sm:pt-4 border-t-2 border-black/10">
+      <div class="w-full pt-2 sm:pt-3 border-t-2 border-black/10">
+        <!-- Big Animated Racing Car Track Runner -->
+        <div class="relative w-full h-12 mb-1 select-none pointer-events-none">
+          <div
+            id="preloader-car-runner"
+            class="absolute -top-2 transition-all duration-100 ease-out flex items-center"
+            style="left: 0px;"
+          >
+            <!-- Exhaust Smoke Trail -->
+            <span id="car-smoke" class="text-lg sm:text-xl mr-1 animate-pulse opacity-80 select-none hidden">💨</span>
+            <!-- Big High-Impact Racing Car -->
+            <span class="text-4xl sm:text-5xl drop-shadow-md select-none inline-block filter transform transition-transform">🏎️</span>
+            <!-- Turbo Spark at High Speed -->
+            <span id="car-spark" class="text-base text-[#FFE57F] animate-ping ml-0.5 select-none font-bold hidden">⚡</span>
+          </div>
+        </div>
+
         <!-- Segmented Candy-Striped Progress Bar with 25% Notch Lines -->
         <div class="relative w-full h-7 sm:h-8 bg-[#FAF7F0] border-3 border-black rounded-full p-1 shadow-brutal-xs overflow-hidden mb-3">
           <!-- 25%, 50%, 75% quadrant divider notches -->
@@ -459,7 +476,7 @@
             class="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-100 ease-out flex items-center justify-end pr-2 relative z-10"
             style="width: 0%;"
           >
-            <span id="preloader-star" class="text-xs sm:text-sm select-none pointer-events-none drop-shadow hidden">🏎️</span>
+            <span id="preloader-spark-fill" class="text-xs select-none pointer-events-none font-bold text-black/70 hidden">⚡</span>
           </div>
         </div>
 
@@ -1613,7 +1630,10 @@
 
       var preloader = document.getElementById("preloader");
       var bar = document.getElementById("preloader-bar");
-      var star = document.getElementById("preloader-star");
+      var carRunner = document.getElementById("preloader-car-runner");
+      var carSmoke = document.getElementById("car-smoke");
+      var carSpark = document.getElementById("car-spark");
+      var sparkFill = document.getElementById("preloader-spark-fill");
       var pct = document.getElementById("preloader-pct");
       var status = document.getElementById("preloader-status");
       var sub = document.getElementById("preloader-sub");
@@ -1633,9 +1653,21 @@
         if (bar) bar.style.width = val + "%";
         if (pct) pct.textContent = val + "% · " + currentSpeed + "x SPEED";
         if (speed) speed.textContent = currentSpeed + "x SPEED";
-        if (star) {
-          if (val > 10) star.classList.remove("hidden");
-          else star.classList.add("hidden");
+
+        if (carRunner) {
+          carRunner.style.left = "clamp(0px, calc(" + val + "% - 40px), calc(100% - 56px))";
+        }
+        if (carSmoke) {
+          if (val > 5) carSmoke.classList.remove("hidden");
+          else carSmoke.classList.add("hidden");
+        }
+        if (carSpark) {
+          if (val >= 75) carSpark.classList.remove("hidden");
+          else carSpark.classList.add("hidden");
+        }
+        if (sparkFill) {
+          if (val > 8) sparkFill.classList.remove("hidden");
+          else sparkFill.classList.add("hidden");
         }
 
         // Update 4 Telemetry HUD Cards
