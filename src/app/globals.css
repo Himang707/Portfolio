@@ -379,4 +379,40 @@ body {
   transform-origin: center;
 }
 
+@keyframes speed-streak {
+  0% {
+    transform: translateX(60px) scaleX(0.4);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(-60px) scaleX(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-speed-streak-1 {
+  animation: speed-streak 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-speed-streak-2 {
+  animation: speed-streak 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.6s;
+}
+
+@keyframes turbo-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.animate-turbo-pulse {
+  animation: turbo-pulse 1.4s ease-in-out infinite;
+}
+
+
 
