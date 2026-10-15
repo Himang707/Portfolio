@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 /* ================================================================
-   NEO-BRUTALIST DESIGN TOKENS
+   PORTFOLIO DESIGN TOKENS
    Ivory background, crisp black outlines, offset hard shadows,
    pastel yellow, blue, pink, and lavender accents.
 ================================================================ */
@@ -54,7 +54,7 @@ body {
 }
 
 /* ================================================================
-   NEO-BRUTALIST UTILITIES
+   TACTILE DESIGN UTILITIES
 ================================================================ */
 .font-space {
   font-family: var(--font-space);
@@ -102,7 +102,7 @@ body {
   box-shadow: 5px 5px 0px var(--pastel-yellow);
 }
 
-/* Interactive Brutalist Button */
+/* Interactive Tactile Button */
 .brutal-btn {
   border: 2px solid #111111;
   box-shadow: 4px 4px 0px #111111;
@@ -124,7 +124,7 @@ body {
   box-shadow: 2px 2px 0px #111111;
 }
 
-/* Interactive Brutalist Card */
+/* Interactive Tactile Card */
 .brutal-card {
   background-color: #FFFFFF;
   border: 2px solid #111111;
@@ -214,5 +214,74 @@ body {
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+/* ================================================================
+   AMBIENT BACKGROUND EMOJI DRIFT ANIMATIONS
+   Dynamic, buoyant floating speed with lively organic movement
+================================================================ */
+@keyframes emoji-drift-1 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-22px) translateX(8px) rotate(calc(var(--rot, 0deg) + 7deg));
+  }
+}
+
+@keyframes emoji-drift-2 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(20px) translateX(-10px) rotate(calc(var(--rot, 0deg) - 8deg));
+  }
+}
+
+@keyframes emoji-drift-3 {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-18px) translateX(-12px) rotate(calc(var(--rot, 0deg) + 6deg));
+  }
+}
+
+@keyframes emoji-drift-4 {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(22px) scale(1.12) rotate(calc(var(--rot, 0deg) - 7deg));
+  }
+}
+
+.animate-emoji-drift-1 {
+  animation: emoji-drift-1 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-emoji-drift-2 {
+  animation: emoji-drift-2 3.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-emoji-drift-3 {
+  animation: emoji-drift-3 3.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-emoji-drift-4 {
+  animation: emoji-drift-4 3.1s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-emoji-drift-1,
+  .animate-emoji-drift-2,
+  .animate-emoji-drift-3,
+  .animate-emoji-drift-4 {
+    animation: none !important;
+  }
 }
 

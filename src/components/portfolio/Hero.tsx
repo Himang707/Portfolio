@@ -132,6 +132,22 @@ export default function Hero() {
               </div>
             ))}
           </div>
+
+          {/* Quick Personality Badges with Emojis to fulfill whitespace */}
+          <div className="pt-1 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
+              <span>☕</span> Chai Fueled
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
+              <span>⚡</span> 60 FPS Polish
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
+              <span>🚀</span> Rapid 0-to-1 Shipping
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
+              <span>🤖</span> Applied AI
+            </span>
+          </div>
         </div>
 
         {/* Right Column: Playful Gray Browser-Window Illustration with Smiley Face & Stickers */}

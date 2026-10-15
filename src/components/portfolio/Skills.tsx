@@ -36,7 +36,7 @@ export default function Skills() {
           </p>
         </div>
 
-        {/* Search input with brutalist border & shadow */}
+        {/* Search input with tactile border & shadow */}
         <div className="relative shrink-0">
           <input
             type="text"
@@ -49,30 +49,35 @@ export default function Skills() {
       </div>
 
       {/* Category Filter Pills */}
-      <div className="flex flex-wrap gap-2.5 mb-10">
+      <div className="flex flex-wrap items-center gap-2.5 mb-10">
         <button
           onClick={() => setActiveCategory("all")}
-          className={`px-4 py-2 rounded-xl text-xs font-space font-extrabold border-2 border-black transition-all ${
+          className={`px-4 py-2 rounded-xl text-xs font-space font-extrabold border-2 border-black transition-all flex items-center gap-1.5 ${
             activeCategory === "all"
               ? "bg-[#FFE57F] text-black shadow-brutal translate-x-[-1px] translate-y-[-1px]"
               : "bg-white text-black shadow-brutal-xs hover:bg-[#FAF7F0]"
           }`}
         >
-          ALL ({skills.length})
+          <span>⚡</span>
+          <span>ALL ({skills.length})</span>
         </button>
-        {skillCategories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-space font-extrabold border-2 border-black transition-all ${
-              activeCategory === cat.id
-                ? "bg-[#A5D8FF] text-black shadow-brutal translate-x-[-1px] translate-y-[-1px]"
-                : "bg-white text-black shadow-brutal-xs hover:bg-[#FAF7F0]"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+        {skillCategories.map((cat) => {
+          const emoji = cat.id === "frontend" ? "⚛️" : cat.id === "ai_ml" ? "🤖" : cat.id === "languages" ? "💻" : "🛠️";
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-2 rounded-xl text-xs font-space font-extrabold border-2 border-black transition-all flex items-center gap-1.5 ${
+                activeCategory === cat.id
+                  ? "bg-[#A5D8FF] text-black shadow-brutal translate-x-[-1px] translate-y-[-1px]"
+                  : "bg-white text-black shadow-brutal-xs hover:bg-[#FAF7F0]"
+              }`}
+            >
+              <span>{emoji}</span>
+              <span>{cat.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Skills Grid */}

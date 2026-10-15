@@ -50,7 +50,7 @@ const config: Config = {
           700: "#377E5E",
           luminous: "#7FE7B8",
         },
-        // Neo-Brutalist Pastel Palette
+        // Signature Pastel Palette
         ivory: {
           DEFAULT: "#FAF7F0",
           50:  "#FFFDF9",

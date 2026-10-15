@@ -7,6 +7,7 @@ const realProjects = [
   {
     id: "udayaan-tech",
     number: "01",
+    emoji: "🏢",
     badge: "WORK / ORG",
     badgeColor: "bg-[#A5D8FF]",
     title: "UDAYAAN TECH — Engineering Organization",
@@ -22,6 +23,7 @@ const realProjects = [
   {
     id: "sih-2026",
     number: "02",
+    emoji: "⚖️",
     badge: "SIH 2026",
     badgeColor: "bg-[#FFE57F]",
     title: "NYAY SURAKSHA (SIH-2026) — Legal Document System",
@@ -37,6 +39,7 @@ const realProjects = [
   {
     id: "udyra",
     number: "03",
+    emoji: "🛡️",
     badge: "AUTH & IDENTITY ENGINE",
     badgeColor: "bg-[#FFAEC8]",
     title: "UDYRA — Authentication & Identity Engine",
@@ -52,6 +55,7 @@ const realProjects = [
   {
     id: "relay",
     number: "04",
+    emoji: "⚡",
     badge: "AI INTELLIGENCE",
     badgeColor: "bg-[#D8B4FE]",
     title: "RELAY — Context Intelligence Platform",
@@ -110,8 +114,9 @@ export default function Portfolio() {
               {/* Card Header: Number Badge, Badge & Status Pill */}
               <div className="flex items-center justify-between gap-3 mb-5">
                 <div className="flex items-center gap-2">
-                  <div className="bg-[#FAF7F0] border-2 border-black px-3 py-1 rounded-md font-space font-black text-xs sm:text-sm text-black shadow-brutal-xs">
-                    {project.number}
+                  <div className="bg-[#FAF7F0] border-2 border-black px-2.5 py-1 rounded-md font-space font-black text-xs sm:text-sm text-black shadow-brutal-xs flex items-center gap-1.5">
+                    <span>{project.emoji}</span>
+                    <span>{project.number}</span>
                   </div>
                   {project.badge && (
                     <span className={`${project.badgeColor} border border-black px-2 py-0.5 rounded font-space font-black text-[10px] uppercase tracking-wider text-black shadow-brutal-xs`}>

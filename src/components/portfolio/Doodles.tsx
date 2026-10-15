@@ -3,7 +3,7 @@
 import React from "react";
 
 /**
- * Hand-drawn SVG doodle assets for neo-brutalist scrapbook styling.
+ * Hand-drawn SVG doodle assets for tactile scrapbook styling.
  * Crisp black strokes, playful curves, and flat pastel fills.
  */
 
@@ -226,7 +226,7 @@ export function ScribbleCircle({
   );
 }
 
-// Himang Panchal's signature artistic logo emblem in neo-brutalist styling
+// Himang Panchal's signature artistic logo emblem in tactile styling
 export function HPLogoBadge({
   className = "w-9 h-9 sm:w-10 sm:h-10",
   bgColor = "bg-[#FFE57F]",

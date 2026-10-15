@@ -1,22 +1,26 @@
 "use client";
 
 import React from "react";
-import Header from "@/components/brutalist/Header";
-import Hero from "@/components/brutalist/Hero";
-import ToolsStrip from "@/components/brutalist/ToolsStrip";
-import About from "@/components/brutalist/About";
-import Skills from "@/components/brutalist/Skills";
-import Services from "@/components/brutalist/Services";
-import Portfolio from "@/components/brutalist/Portfolio";
-import Hackathons from "@/components/brutalist/Hackathons";
-import Testimonials from "@/components/brutalist/Testimonials";
-import Contact from "@/components/brutalist/Contact";
-import BottomTicker from "@/components/brutalist/BottomTicker";
-import Footer from "@/components/brutalist/Footer";
+import Header from "@/components/portfolio/Header";
+import Hero from "@/components/portfolio/Hero";
+import ToolsStrip from "@/components/portfolio/ToolsStrip";
+import About from "@/components/portfolio/About";
+import Skills from "@/components/portfolio/Skills";
+import Services from "@/components/portfolio/Services";
+import Portfolio from "@/components/portfolio/Portfolio";
+import Hackathons from "@/components/portfolio/Hackathons";
+import Testimonials from "@/components/portfolio/Testimonials";
+import Contact from "@/components/portfolio/Contact";
+import BottomTicker from "@/components/portfolio/BottomTicker";
+import Footer from "@/components/portfolio/Footer";
+import EmojiBackground from "@/components/portfolio/EmojiBackground";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#FAF7F0] text-[#111111] font-space selection:bg-[#FFE57F] selection:text-black overflow-x-hidden">
+      {/* Ambient background with subtle drifting signature emojis */}
+      <EmojiBackground />
+
       {/* 1. Header: Outlined compact navbar with Himang's identity */}
       <Header />
 
@@ -49,7 +53,7 @@ export default function Home() {
         <Contact />
       </main>
 
-      {/* 11. Bottom Ticker: Playful neo-brutalist emoji ticker filling the bottom space */}
+      {/* 11. Bottom Ticker: Playful emoji ticker filling the bottom space */}
       <BottomTicker />
 
       {/* 12. Footer: Minimal horizontal footer with wordmark, social icons */}
