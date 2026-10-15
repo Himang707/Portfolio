@@ -10,7 +10,7 @@ export interface SkillItem {
 export const skillCategories = [
   { id: "frontend", label: "FRONTEND", description: "React, HTML, CSS, Tailwind CSS, Responsive UI & component architecture." },
   { id: "ai_ml", label: "AI / ML & CV", description: "Scikit-learn, TensorFlow, PyTorch, Machine Learning, Deep Learning, NLP, Computer Vision." },
-  { id: "languages", label: "LANGUAGES", description: "Python, SQL, JavaScript & core algorithmic paradigms." },
+  { id: "languages", label: "LANGUAGES", description: "Go, Python, SQL, JavaScript & core algorithmic paradigms." },
   { id: "tools", label: "TOOLS & OTHER", description: "Git, GitHub, Docker, Jupyter, API Integration & Computer Vision Applications." },
 ] as const;
 
@@ -108,6 +108,14 @@ export const skills: SkillItem[] = [
   },
 
   // LANGUAGES
+  {
+    name: "Go (Golang)",
+    category: "languages",
+    description: "High-concurrency systems, authentication & identity engines, low-latency microservices, and thread-safe distributed architectures.",
+    level: "Advanced",
+    iconName: "Code2",
+    tag: "Systems Language",
+  },
   {
     name: "Python",
     category: "languages",

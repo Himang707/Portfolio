@@ -19,11 +19,11 @@ A playful, high-performance personal portfolio website built with a tactile **Ne
 ## 🛠️ Featured Organizations & Projects
 
 1. **[UDAYAAN TECH](https://github.com/udayaan-tech)** (`WORK / ORG`)
-   - Technology organization & engineering team where I work — building AI operating systems, high-performance systems software, and nationwide hackathon architectures.
+   - Technology organization & engineering team where I work — building authentication & identity engines, high-performance systems software, and nationwide hackathon architectures.
 2. **[NYAY SURAKSHA (SIH-2026)](https://github.com/udayaan-tech/SIH-2026)** (`SIH 2026 SUBMISSION`)
    - Secure digital document management platform submitted for Smart India Hackathon 2026 (Ministry of Home Affairs / NCRB) featuring tamper-evident custody logging.
-3. **[UDYRA](https://github.com/udayaan-tech/udyra)** (`AI OPERATING SYSTEM`)
-   - India-first AI Operating System featuring persistent context memory, autonomous background agents (Nexus), AI tool discovery, and unified workflow automation. Live at [udyra.in](https://udyra.in).
+3. **[UDYRA](https://github.com/udayaan-tech/udyra)** (`AUTH & IDENTITY ENGINE`)
+   - High-performance, MNC-standard Authentication & Identity Engine built in Go. Provides defense-in-depth protection against advanced persistent threats, credential stuffing, replay attacks, and high-concurrency race conditions. Live at [udyra.in](https://udyra.in).
 4. **[RELAY](https://github.com/himang707)** (`AI INTELLIGENCE PLATFORM`)
    - Technical documentation intelligence platform with sub-120ms vector retrieval and knowledge graph indexing.
 

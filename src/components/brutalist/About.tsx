@@ -72,7 +72,7 @@ export default function About() {
               </p>
               <p>
                 My work bridges the gap between frontend engineering, tactile interactions, and applied machine learning.
-                Whether it is building <strong>UDYRA</strong> (AI Operating System) and systems with the engineering team at <strong>UDAYAAN TECH</strong>, engineering sub-120ms vector retrieval in <strong>RELAY</strong>, or architecting <strong>NYAY SURAKSHA</strong> for <strong>Smart India Hackathon 2026</strong>, I focus on building software that feels genuinely simple, lightning-fast, and joyful to use.
+                Whether it is building <strong>UDYRA</strong> (Authentication &amp; Identity Engine in Go) and systems with the engineering team at <strong>UDAYAAN TECH</strong>, engineering sub-120ms vector retrieval in <strong>RELAY</strong>, or architecting <strong>NYAY SURAKSHA</strong> for <strong>Smart India Hackathon 2026</strong>, I focus on building software that feels genuinely simple, lightning-fast, and joyful to use.
               </p>
             </div>
 
