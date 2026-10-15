@@ -1,6 +1,6 @@
-# Himang Panchal — Neo-Brutalist Developer Portfolio 🚀
+# Himang Panchal — Frontend Developer & AI/ML Enthusiast Portfolio 🚀
 
-A playful, high-performance personal portfolio website built with a tactile **Neo-Brutalist** aesthetic. Features warm ivory backgrounds (`#FAF7F0`), crisp 2px black borders, offset hard shadows (`shadow-brutal`), vibrant pastel accents (`yellow`, `blue`, `pink`, `lavender`), dynamic typography (`Space Grotesk` & `Inter`), and hand-crafted scrapbook stickers.
+A playful, high-performance personal portfolio website built with a modern, tactile aesthetic. Features warm ivory backgrounds (`#FAF7F0`), crisp 2px black borders, offset hard shadows (`shadow-brutal`), vibrant pastel accents (`yellow`, `blue`, `pink`, `lavender`), dynamic typography (`Space Grotesk` & `Inter`), and hand-crafted scrapbook stickers.
 
 ![Hero Preview](public/images/himang-portrait.jpg)
 
@@ -9,7 +9,7 @@ A playful, high-performance personal portfolio website built with a tactile **Ne
 ## ⚡ Tech Stack & Architecture
 
 - **Framework**: [Next.js 14](https://nextjs.org/) (App Router & React 18)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + Neo-Brutalist custom utility design tokens
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + custom utility design tokens
 - **Typography**: [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) (Headings & Badges) & [Inter](https://fonts.google.com/specimen/Inter) (Body & Testimonials)
 - **Icons & Graphics**: Custom SVG scrapbook doodles, hand-drawn stars, squiggles, and stickers
 - **Performance**: 100/100 Lighthouse performance, sub-120ms rendering, zero database dependency

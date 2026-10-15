@@ -23,25 +23,25 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Himang Panchal — UI/UX & Web Designer | Portfolio",
+  title: "Himang Panchal — Frontend Developer & AI/ML Enthusiast | Portfolio",
   description:
-    "Playful neo-brutalist personal portfolio for Himang Panchal, a UI/UX and web designer crafting top-notch websites with bold typography, offset hard shadows, and delightful scrapbook details.",
+    "Personal portfolio of Himang Panchal, a Frontend Developer and AI/ML Enthusiast crafting top-notch web applications and computer vision tools.",
   keywords: [
-    "UI/UX Designer",
-    "Web Designer",
-    "Product Designer",
-    "Neo-brutalist Portfolio",
-    "Figma",
-    "Framer",
-    "Webflow",
+    "Frontend Developer",
+    "AI/ML Enthusiast",
+    "Web Developer",
+    "React",
+    "Next.js",
+    "Computer Vision",
+    "Portfolio",
     "Himang Panchal",
   ],
   authors: [{ name: "Himang Panchal" }],
   creator: "Himang Panchal",
   openGraph: {
-    title: "Himang Panchal — UI/UX & Web Designer",
+    title: "Himang Panchal — Frontend Developer & AI/ML Enthusiast",
     description:
-      "Playful neo-brutalist portfolio. I design top-notch websites with bold typography, crisp outlines, and high-impact UX.",
+      "Personal portfolio of Himang Panchal. Crafting top-notch web applications with bold typography, crisp outlines, and high-impact UX.",
     siteName: "Himang Portfolio",
     locale: "en_US",
     type: "website",
