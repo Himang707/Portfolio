@@ -1,14 +1,40 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import confetti from "canvas-confetti";
 
-const SPEED_STEPS = [
-  { at: 0, text: "Igniting 10x Speed Engine... 🏎️💨", sub: "Optimizing Critical Rendering Path" },
-  { at: 20, text: "Splitting CSS & Inlining Fonts... ⚡", sub: "font-display: swap unblocking render" },
-  { at: 48, text: "Lazy Loading WebP Graphics... 📦", sub: "Zero render-blocking assets" },
-  { at: 74, text: "Polishing 60 FPS Spring Physics... 🏁", sub: "Hardware GPU will-change active" },
-  { at: 92, text: "10x Speed Achieved! Entering Himang's World... 🚀", sub: "Lighthouse 100/100 Core Web Vitals" },
+interface Milestone {
+  target: number;
+  text: string;
+  sub: string;
+  stageBadge: string;
+}
+
+const MILESTONES: Milestone[] = [
+  {
+    target: 25,
+    text: "Igniting 10x Speed Engine... 🏎️💨",
+    sub: "Optimizing Critical Rendering Path",
+    stageBadge: "STAGE 1/4 · 25%",
+  },
+  {
+    target: 50,
+    text: "Splitting CSS & Inlining Fonts... ⚡",
+    sub: "font-display: swap unblocking render",
+    stageBadge: "STAGE 2/4 · 50%",
+  },
+  {
+    target: 75,
+    text: "Lazy Loading WebP Graphics... 📦",
+    sub: "Zero render-blocking assets",
+    stageBadge: "STAGE 3/4 · 75%",
+  },
+  {
+    target: 100,
+    text: "10x Speed Achieved! Entering Himang's World... 🚀",
+    sub: "Lighthouse 100/100 Core Web Vitals",
+    stageBadge: "STAGE 4/4 · 100%",
+  },
 ];
 
 const CUTE_FLOATERS = [
@@ -28,54 +54,105 @@ const CUTE_FLOATERS = [
 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
-  const [stepData, setStepData] = useState(SPEED_STEPS[0]);
+  const [stepData, setStepData] = useState<Milestone>(MILESTONES[0]);
   const [isDone, setIsDone] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
+  const isCancelledRef = useRef(false);
+
   const completeLoading = () => {
+    isCancelledRef.current = true;
     setProgress(100);
-    setStepData(SPEED_STEPS[SPEED_STEPS.length - 1]);
+    setStepData(MILESTONES[3]);
+
     try {
       confetti({
-        particleCount: 60,
-        spread: 80,
+        particleCount: 65,
+        spread: 85,
         origin: { y: 0.55 },
         colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"],
       });
     } catch {
       // safe fallback if canvas is not ready
     }
+
     setTimeout(() => {
       setIsExiting(true);
       setTimeout(() => {
         setIsDone(true);
-      }, 400);
-    }, 220);
+      }, 450);
+    }, 650);
   };
 
   useEffect(() => {
-    let current = 0;
-    // 10x Fast Speed Engine: 18ms interval for brisk, high-octane boot (~0.5s total)
-    const interval = setInterval(() => {
-      current += Math.floor(Math.random() * 5) + 4;
-      if (current >= 100) {
-        current = 100;
-        clearInterval(interval);
-        completeLoading();
-      } else {
-        setProgress(current);
-        const match = [...SPEED_STEPS].reverse().find((s) => current >= s.at);
-        if (match) setStepData(match);
-      }
-    }, 18);
+    isCancelledRef.current = false;
 
-    return () => clearInterval(interval);
+    // Smooth ease-out quad interpolation function for progress increments
+    const glideTo = (fromVal: number, toVal: number, durationMs: number): Promise<void> => {
+      return new Promise((resolve) => {
+        const startTime = performance.now();
+        const step = (now: number) => {
+          if (isCancelledRef.current) return;
+          const elapsed = now - startTime;
+          const t = Math.min(1, elapsed / durationMs);
+          const eased = t * (2 - t);
+          const current = Math.round(fromVal + (toVal - fromVal) * eased);
+          setProgress(current);
+
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            setProgress(toVal);
+            resolve();
+          }
+        };
+        requestAnimationFrame(step);
+      });
+    };
+
+    const sleep = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    // Sequenced 25% -> 50% -> 75% -> 100% progression with clear milestone pauses
+    const runSequence = async () => {
+      // Step 1: 0% to 25%
+      setStepData(MILESTONES[0]);
+      await glideTo(0, 25, 450);
+      if (isCancelledRef.current) return;
+      await sleep(500); // dwell at 25%
+
+      // Step 2: 25% to 50%
+      setStepData(MILESTONES[1]);
+      await glideTo(25, 50, 450);
+      if (isCancelledRef.current) return;
+      await sleep(500); // dwell at 50%
+
+      // Step 3: 50% to 75%
+      setStepData(MILESTONES[2]);
+      await glideTo(50, 75, 450);
+      if (isCancelledRef.current) return;
+      await sleep(500); // dwell at 75%
+
+      // Step 4: 75% to 100%
+      setStepData(MILESTONES[3]);
+      await glideTo(75, 100, 450);
+      if (isCancelledRef.current) return;
+
+      // Completion celebration at 100%
+      completeLoading();
+    };
+
+    runSequence();
+
+    return () => {
+      isCancelledRef.current = true;
+    };
   }, []);
 
   if (isDone) return null;
 
   // Calculate live speedometer speed readout (0.0x to 10.0x)
-  const currentSpeed = (Math.min(10, (progress / 10))).toFixed(1);
+  const currentSpeed = (Math.min(10, progress / 10)).toFixed(1);
 
   return (
     <div
@@ -138,14 +215,14 @@ export default function LoadingScreen() {
             <span className="w-3.5 h-3.5 rounded-full bg-[#A7F3D0] border-2 border-black shadow-brutal-xs" />
           </div>
 
-          {/* Center 10x Turbo Badge */}
+          {/* Center Stage & Turbo Badge */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#FFE57F] border-2 border-black rounded-full font-space font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-brutal-xs -rotate-1 animate-turbo-pulse">
             <span>⚡</span>
-            <span>10x TURBO SPEED ENGINE</span>
+            <span>{stepData.stageBadge}</span>
             <span>🏁</span>
           </div>
 
-          {/* Right Live FPS / Speedometer */}
+          {/* Right Live Speedometer */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#A5D8FF] border-2 border-black rounded-full font-space font-black text-xs shadow-brutal-xs">
             <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
             <span>{currentSpeed}x SPEED</span>
@@ -248,7 +325,7 @@ export default function LoadingScreen() {
             Loading Himang&apos;s Portfolio
           </h2>
 
-          {/* Dynamic 10x Speed Status Capsule */}
+          {/* Dynamic 25% Stepped Status Capsule */}
           <div className="inline-flex flex-col items-center gap-1 px-4 sm:px-6 py-2 bg-[#FAF7F0] border-2 border-black rounded-2xl shadow-brutal-xs">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping" />
@@ -261,44 +338,81 @@ export default function LoadingScreen() {
             </span>
           </div>
 
-          {/* 10x Speed Telemetry HUD (Inspired by Dev.to Performance Tips) */}
+          {/* 10x Speed 4-Quadrant Telemetry HUD (Directly unlocks with each 25% stage) */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-3 sm:mt-4">
-            <div className="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-              <span className="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">Engine</span>
+            {/* Step 1: 25% Milestone Card */}
+            <div
+              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
+                progress >= 25 ? "bg-[#FFE57F] scale-102" : "bg-[#FAF7F0] opacity-60"
+              }`}
+            >
+              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+                {progress >= 25 ? "✓ 25% Stage 1" : "Stage 1 (25%)"}
+              </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>⚡</span> 10x Speed
+                <span>⚡</span> 10x Engine
               </span>
             </div>
-            <div className="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-              <span className="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">First Paint</span>
+
+            {/* Step 2: 50% Milestone Card */}
+            <div
+              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
+                progress >= 50 ? "bg-[#FFAEC8] scale-102" : "bg-[#FAF7F0] opacity-60"
+              }`}
+            >
+              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+                {progress >= 50 ? "✓ 50% Stage 2" : "Stage 2 (50%)"}
+              </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>⏱️</span> 0.18s
+                <span>⏱️</span> 0.18s Paint
               </span>
             </div>
-            <div className="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-              <span className="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">CSS Weight</span>
+
+            {/* Step 3: 75% Milestone Card */}
+            <div
+              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
+                progress >= 75 ? "bg-[#A5D8FF] scale-102" : "bg-[#FAF7F0] opacity-60"
+              }`}
+            >
+              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+                {progress >= 75 ? "✓ 75% Stage 3" : "Stage 3 (75%)"}
+              </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>📦</span> Thin &amp; Split
+                <span>📦</span> Split CSS
               </span>
             </div>
-            <div className="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-              <span className="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">Lighthouse</span>
-              <span className="font-space font-black text-xs sm:text-sm text-[#059669] flex items-center gap-1">
-                <span>💯</span> 100/100
+
+            {/* Step 4: 100% Milestone Card */}
+            <div
+              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
+                progress >= 100 ? "bg-[#A7F3D0] scale-102" : "bg-[#FAF7F0] opacity-60"
+              }`}
+            >
+              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+                {progress >= 100 ? "✓ 100% Ready" : "Stage 4 (100%)"}
+              </span>
+              <span className="font-space font-black text-xs sm:text-sm text-[#065F46] flex items-center gap-1">
+                <span>💯</span> 100/100 Vitals
               </span>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section: Candy-Striped Tachometer Bar & Controls */}
+        {/* Bottom Section: Segmented 25% Tachometer Bar & Controls */}
         <div className="w-full pt-3 sm:pt-4 border-t-2 border-black/10">
-          {/* Candy-Striped Progress Bar */}
+          {/* Segmented Candy-Striped Progress Bar with 25% Notch Lines */}
           <div className="relative w-full h-7 sm:h-8 bg-[#FAF7F0] border-3 border-black rounded-full p-1 shadow-brutal-xs overflow-hidden mb-3">
+            {/* 25%, 50%, 75% quadrant divider notches */}
+            <div className="absolute inset-y-0 left-1/4 w-[2px] bg-black/30 pointer-events-none z-20" />
+            <div className="absolute inset-y-0 left-2/4 w-[2px] bg-black/30 pointer-events-none z-20" />
+            <div className="absolute inset-y-0 left-3/4 w-[2px] bg-black/30 pointer-events-none z-20" />
+
+            {/* Progress Fill */}
             <div
-              className="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-75 ease-out flex items-center justify-end pr-2"
+              className="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-100 ease-out flex items-center justify-end pr-2 relative z-10"
               style={{ width: `${progress}%` }}
             >
-              {progress > 12 && (
+              {progress > 10 && (
                 <span className="text-xs sm:text-sm select-none pointer-events-none drop-shadow">
                   🏎️
                 </span>
@@ -308,18 +422,27 @@ export default function LoadingScreen() {
 
           {/* Footer Controls Row */}
           <div className="flex items-center justify-between gap-3">
-            {/* Percentage Pill */}
+            {/* Percentage & Speed Pill */}
             <span className="bg-[#FFE57F] px-3 sm:px-4 py-1.5 rounded-xl border-2 border-black shadow-brutal-xs font-space font-black text-xs sm:text-sm text-black">
-              {progress}% · {currentSpeed}x
+              {progress}% · {currentSpeed}x SPEED
             </span>
 
-            {/* Performance Chips */}
-            <div className="hidden sm:flex items-center gap-2">
-              <span className="inline-flex items-center gap-1 px-3 py-1 bg-white border border-black rounded-lg text-xs font-bold shadow-brutal-xs">
-                ⚡ 60 FPS
+            {/* 25% Step Indicators */}
+            <div className="hidden sm:flex items-center gap-1.5">
+              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 25 ? "bg-[#FFE57F] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
+                25%
               </span>
-              <span className="hidden md:inline-flex items-center gap-1 px-3 py-1 bg-white border border-black rounded-lg text-xs font-bold shadow-brutal-xs">
-                🚀 Zero Render Block
+              <span className="text-xs text-gray-400">➔</span>
+              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 50 ? "bg-[#FFAEC8] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
+                50%
+              </span>
+              <span className="text-xs text-gray-400">➔</span>
+              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 75 ? "bg-[#A5D8FF] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
+                75%
+              </span>
+              <span className="text-xs text-gray-400">➔</span>
+              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 100 ? "bg-[#A7F3D0] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
+                100%
               </span>
             </div>
 

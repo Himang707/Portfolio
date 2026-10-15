@@ -277,10 +277,10 @@
           <span class="w-3.5 h-3.5 rounded-full bg-[#A7F3D0] border-2 border-black shadow-brutal-xs"></span>
         </div>
 
-        <!-- Center 10x Turbo Badge -->
+        <!-- Center Stage & Turbo Badge -->
         <div class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#FFE57F] border-2 border-black rounded-full font-space font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-brutal-xs -rotate-1 animate-turbo-pulse">
           <span>⚡</span>
-          <span>10x TURBO SPEED ENGINE</span>
+          <span id="preloader-stage">STAGE 1/4 · 25%</span>
           <span>🏁</span>
         </div>
 
@@ -400,42 +400,63 @@
           </span>
         </div>
 
-        <!-- 10x Speed Telemetry HUD (Inspired by Dev.to Performance Tips) -->
+        <!-- 10x Speed 4-Quadrant Telemetry HUD -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-3 sm:mt-4">
-          <div class="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-            <span class="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">Engine</span>
+          <!-- Step 1: 25% Milestone Card -->
+          <div id="hud-card-1" class="border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FAF7F0] opacity-60">
+            <span id="hud-title-1" class="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+              Stage 1 (25%)
+            </span>
             <span class="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-              <span>⚡</span> 10x Speed
+              <span>⚡</span> 10x Engine
             </span>
           </div>
-          <div class="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-            <span class="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">First Paint</span>
+
+          <!-- Step 2: 50% Milestone Card -->
+          <div id="hud-card-2" class="border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FAF7F0] opacity-60">
+            <span id="hud-title-2" class="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+              Stage 2 (50%)
+            </span>
             <span class="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-              <span>⏱️</span> 0.18s
+              <span>⏱️</span> 0.18s Paint
             </span>
           </div>
-          <div class="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-            <span class="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">CSS Weight</span>
+
+          <!-- Step 3: 75% Milestone Card -->
+          <div id="hud-card-3" class="border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FAF7F0] opacity-60">
+            <span id="hud-title-3" class="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+              Stage 3 (75%)
+            </span>
             <span class="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-              <span>📦</span> Thin &amp; Split
+              <span>📦</span> Split CSS
             </span>
           </div>
-          <div class="bg-[#FAF7F0] border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center">
-            <span class="text-[10px] font-space font-extrabold text-gray-500 uppercase tracking-wider">Lighthouse</span>
-            <span class="font-space font-black text-xs sm:text-sm text-[#059669] flex items-center gap-1">
-              <span>💯</span> 100/100
+
+          <!-- Step 4: 100% Milestone Card -->
+          <div id="hud-card-4" class="border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FAF7F0] opacity-60">
+            <span id="hud-title-4" class="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
+              Stage 4 (100%)
+            </span>
+            <span class="font-space font-black text-xs sm:text-sm text-[#065F46] flex items-center gap-1">
+              <span>💯</span> 100/100 Vitals
             </span>
           </div>
         </div>
       </div>
 
-      <!-- Bottom Section: Candy-Striped Tachometer Bar & Controls -->
+      <!-- Bottom Section: Segmented 25% Tachometer Bar & Controls -->
       <div class="w-full pt-3 sm:pt-4 border-t-2 border-black/10">
-        <!-- Candy-Striped Progress Bar -->
+        <!-- Segmented Candy-Striped Progress Bar with 25% Notch Lines -->
         <div class="relative w-full h-7 sm:h-8 bg-[#FAF7F0] border-3 border-black rounded-full p-1 shadow-brutal-xs overflow-hidden mb-3">
+          <!-- 25%, 50%, 75% quadrant divider notches -->
+          <div class="absolute inset-y-0 left-1/4 w-[2px] bg-black/30 pointer-events-none z-20"></div>
+          <div class="absolute inset-y-0 left-2/4 w-[2px] bg-black/30 pointer-events-none z-20"></div>
+          <div class="absolute inset-y-0 left-3/4 w-[2px] bg-black/30 pointer-events-none z-20"></div>
+
+          <!-- Progress Fill -->
           <div
             id="preloader-bar"
-            class="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-75 ease-out flex items-center justify-end pr-2"
+            class="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-100 ease-out flex items-center justify-end pr-2 relative z-10"
             style="width: 0%;"
           >
             <span id="preloader-star" class="text-xs sm:text-sm select-none pointer-events-none drop-shadow hidden">🏎️</span>
@@ -444,18 +465,27 @@
 
         <!-- Footer Controls Row -->
         <div class="flex items-center justify-between gap-3">
-          <!-- Percentage Pill -->
+          <!-- Percentage & Speed Pill -->
           <span id="preloader-pct" class="bg-[#FFE57F] px-3 sm:px-4 py-1.5 rounded-xl border-2 border-black shadow-brutal-xs font-space font-black text-xs sm:text-sm text-black">
-            0% · 0.0x
+            0% · 0.0x SPEED
           </span>
 
-          <!-- Performance Chips -->
-          <div class="hidden sm:flex items-center gap-2">
-            <span class="inline-flex items-center gap-1 px-3 py-1 bg-white border border-black rounded-lg text-xs font-bold shadow-brutal-xs">
-              ⚡ 60 FPS
+          <!-- 25% Step Indicators -->
+          <div class="hidden sm:flex items-center gap-1.5">
+            <span id="step-pill-25" class="px-2 py-0.5 rounded border text-[11px] font-bold bg-white/60 border-black/30 text-gray-400">
+              25%
             </span>
-            <span class="hidden md:inline-flex items-center gap-1 px-3 py-1 bg-white border border-black rounded-lg text-xs font-bold shadow-brutal-xs">
-              🚀 Zero Render Block
+            <span class="text-xs text-gray-400">➔</span>
+            <span id="step-pill-50" class="px-2 py-0.5 rounded border text-[11px] font-bold bg-white/60 border-black/30 text-gray-400">
+              50%
+            </span>
+            <span class="text-xs text-gray-400">➔</span>
+            <span id="step-pill-75" class="px-2 py-0.5 rounded border text-[11px] font-bold bg-white/60 border-black/30 text-gray-400">
+              75%
+            </span>
+            <span class="text-xs text-gray-400">➔</span>
+            <span id="step-pill-100" class="px-2 py-0.5 rounded border text-[11px] font-bold bg-white/60 border-black/30 text-gray-400">
+              100%
             </span>
           </div>
 
@@ -1554,12 +1584,31 @@
   <!-- Preloader Controller -->
   <script>
     (function() {
-      var steps = [
-        { at: 0, text: "Igniting 10x Speed Engine... 🏎️💨", sub: "Optimizing Critical Rendering Path" },
-        { at: 20, text: "Splitting CSS & Inlining Fonts... ⚡", sub: "font-display: swap unblocking render" },
-        { at: 48, text: "Lazy Loading WebP Graphics... 📦", sub: "Zero render-blocking assets" },
-        { at: 74, text: "Polishing 60 FPS Spring Physics... 🏁", sub: "Hardware GPU will-change active" },
-        { at: 92, text: "10x Speed Achieved! Entering Himang's World... 🚀", sub: "Lighthouse 100/100 Core Web Vitals" }
+      var milestones = [
+        {
+          target: 25,
+          text: "Igniting 10x Speed Engine... 🏎️💨",
+          sub: "Optimizing Critical Rendering Path",
+          stageBadge: "STAGE 1/4 · 25%"
+        },
+        {
+          target: 50,
+          text: "Splitting CSS & Inlining Fonts... ⚡",
+          sub: "font-display: swap unblocking render",
+          stageBadge: "STAGE 2/4 · 50%"
+        },
+        {
+          target: 75,
+          text: "Lazy Loading WebP Graphics... 📦",
+          sub: "Zero render-blocking assets",
+          stageBadge: "STAGE 3/4 · 75%"
+        },
+        {
+          target: 100,
+          text: "10x Speed Achieved! Entering Himang's World... 🚀",
+          sub: "Lighthouse 100/100 Core Web Vitals",
+          stageBadge: "STAGE 4/4 · 100%"
+        }
       ];
 
       var preloader = document.getElementById("preloader");
@@ -1569,6 +1618,7 @@
       var status = document.getElementById("preloader-status");
       var sub = document.getElementById("preloader-sub");
       var speed = document.getElementById("preloader-speed");
+      var stage = document.getElementById("preloader-stage");
       var skipBtn = document.getElementById("preloader-skip");
 
       if (!preloader) return;
@@ -1576,20 +1626,74 @@
       var progress = 0;
       var isDismissed = false;
 
+      function updateUI(val) {
+        progress = val;
+        var currentSpeed = Math.min(10, (val / 10)).toFixed(1);
+
+        if (bar) bar.style.width = val + "%";
+        if (pct) pct.textContent = val + "% · " + currentSpeed + "x SPEED";
+        if (speed) speed.textContent = currentSpeed + "x SPEED";
+        if (star) {
+          if (val > 10) star.classList.remove("hidden");
+          else star.classList.add("hidden");
+        }
+
+        // Update 4 Telemetry HUD Cards
+        var card1 = document.getElementById("hud-card-1");
+        var title1 = document.getElementById("hud-title-1");
+        if (card1 && val >= 25) {
+          card1.className = "border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FFE57F] scale-102";
+          if (title1) title1.textContent = "✓ 25% Stage 1";
+        }
+        var card2 = document.getElementById("hud-card-2");
+        var title2 = document.getElementById("hud-title-2");
+        if (card2 && val >= 50) {
+          card2.className = "border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#FFAEC8] scale-102";
+          if (title2) title2.textContent = "✓ 50% Stage 2";
+        }
+        var card3 = document.getElementById("hud-card-3");
+        var title3 = document.getElementById("hud-title-3");
+        if (card3 && val >= 75) {
+          card3.className = "border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#A5D8FF] scale-102";
+          if (title3) title3.textContent = "✓ 75% Stage 3";
+        }
+        var card4 = document.getElementById("hud-card-4");
+        var title4 = document.getElementById("hud-title-4");
+        if (card4 && val >= 100) {
+          card4.className = "border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 bg-[#A7F3D0] scale-102";
+          if (title4) title4.textContent = "✓ 100% Ready";
+        }
+
+        // Update Step indicators in footer
+        var p25 = document.getElementById("step-pill-25");
+        if (p25 && val >= 25) p25.className = "px-2 py-0.5 rounded border text-[11px] font-bold bg-[#FFE57F] border-black text-black";
+        var p50 = document.getElementById("step-pill-50");
+        if (p50 && val >= 50) p50.className = "px-2 py-0.5 rounded border text-[11px] font-bold bg-[#FFAEC8] border-black text-black";
+        var p75 = document.getElementById("step-pill-75");
+        if (p75 && val >= 75) p75.className = "px-2 py-0.5 rounded border text-[11px] font-bold bg-[#A5D8FF] border-black text-black";
+        var p100 = document.getElementById("step-pill-100");
+        if (p100 && val >= 100) p100.className = "px-2 py-0.5 rounded border text-[11px] font-bold bg-[#A7F3D0] border-black text-black";
+      }
+
+      function setStep(idx) {
+        var m = milestones[idx];
+        if (!m) return;
+        if (status) status.textContent = m.text;
+        if (sub) sub.textContent = "⚡ " + m.sub;
+        if (stage) stage.textContent = m.stageBadge;
+      }
+
       function dismiss() {
         if (isDismissed) return;
         isDismissed = true;
-        if (bar) bar.style.width = "100%";
-        if (pct) pct.textContent = "100% · 10.0x";
-        if (speed) speed.textContent = "10.0x SPEED";
-        if (status) status.textContent = "10x Speed Achieved! Entering Himang's World... 🚀";
-        if (sub) sub.textContent = "⚡ Lighthouse 100/100 Core Web Vitals";
+        updateUI(100);
+        setStep(3);
 
         if (typeof confetti === "function") {
           try {
             confetti({
-              particleCount: 60,
-              spread: 80,
+              particleCount: 65,
+              spread: 85,
               origin: { y: 0.55 },
               colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"]
             });
@@ -1602,41 +1706,67 @@
             if (preloader.parentNode) {
               preloader.parentNode.removeChild(preloader);
             }
-          }, 400);
-        }, 220);
+          }, 450);
+        }, 650);
       }
 
       if (skipBtn) {
         skipBtn.addEventListener("click", dismiss);
       }
 
-      var timer = setInterval(function() {
-        if (isDismissed) {
-          clearInterval(timer);
-          return;
-        }
-        progress += Math.floor(Math.random() * 5) + 4;
-        var currentSpeed = Math.min(10, (progress / 10)).toFixed(1);
+      function glideTo(fromVal, toVal, durationMs, callback) {
+        var startTime = performance.now();
+        function step(now) {
+          if (isDismissed) return;
+          var elapsed = now - startTime;
+          var t = Math.min(1, elapsed / durationMs);
+          var eased = t * (2 - t);
+          var curr = Math.round(fromVal + (toVal - fromVal) * eased);
+          updateUI(curr);
 
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(timer);
-          dismiss();
-        } else {
-          if (bar) bar.style.width = progress + "%";
-          if (pct) pct.textContent = progress + "% · " + currentSpeed + "x";
-          if (speed) speed.textContent = currentSpeed + "x SPEED";
-          if (star && progress > 12) star.classList.remove("hidden");
-
-          for (var i = steps.length - 1; i >= 0; i--) {
-            if (progress >= steps[i].at) {
-              if (status) status.textContent = steps[i].text;
-              if (sub) sub.textContent = "⚡ " + steps[i].sub;
-              break;
-            }
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            updateUI(toVal);
+            if (callback) callback();
           }
         }
-      }, 18);
+        requestAnimationFrame(step);
+      }
+
+      // Step 1: 0% -> 25% (glide 450ms, dwell 500ms)
+      setStep(0);
+      glideTo(0, 25, 450, function() {
+        if (isDismissed) return;
+        setTimeout(function() {
+          if (isDismissed) return;
+
+          // Step 2: 25% -> 50% (glide 450ms, dwell 500ms)
+          setStep(1);
+          glideTo(25, 50, 450, function() {
+            if (isDismissed) return;
+            setTimeout(function() {
+              if (isDismissed) return;
+
+              // Step 3: 50% -> 75% (glide 450ms, dwell 500ms)
+              setStep(2);
+              glideTo(50, 75, 450, function() {
+                if (isDismissed) return;
+                setTimeout(function() {
+                  if (isDismissed) return;
+
+                  // Step 4: 75% -> 100% (glide 450ms, then finish)
+                  setStep(3);
+                  glideTo(75, 100, 450, function() {
+                    if (isDismissed) return;
+                    dismiss();
+                  });
+                }, 500);
+              });
+            }, 500);
+          });
+        }, 500);
+      });
     })();
   </script>
 
