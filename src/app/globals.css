@@ -414,5 +414,45 @@ body {
   animation: turbo-pulse 1.4s ease-in-out infinite;
 }
 
+/* Full-Screen Warp Speed Spread Out Animations */
+@keyframes warp-expand {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4.8);
+    opacity: 0;
+  }
+}
+
+.animate-warp-expand {
+  animation: warp-expand 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes speed-rush {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-speed-rush {
+  animation: speed-rush 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
 
 

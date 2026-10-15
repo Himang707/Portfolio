@@ -213,14 +213,50 @@
       }
     }
 
-    .animate-turbo-pulse {
-      animation: turbo-pulse 1.4s ease-in-out infinite;
+    /* Full-Screen Warp Speed Spread Out Animations */
+    @keyframes warp-expand {
+      0% {
+        transform: scale(0.2);
+        opacity: 0.95;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(4.8);
+        opacity: 0;
+      }
+    }
+
+    .animate-warp-expand {
+      animation: warp-expand 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes speed-rush {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      25% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    .animate-speed-rush {
+      animation: speed-rush 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     @media (prefers-reduced-motion: reduce) {
       .animate-emoji-drift-1, .animate-emoji-drift-2, .animate-emoji-drift-3, .animate-emoji-drift-4,
       .animate-cute-bounce, .animate-steam-1, .animate-steam-2, .animate-candy-stripe, .animate-cup-shadow,
-      .animate-speed-streak-1, .animate-speed-streak-2, .animate-turbo-pulse { animation: none !important; }
+      .animate-speed-streak-1, .animate-speed-streak-2, .animate-turbo-pulse, .animate-warp-expand, .animate-speed-rush { animation: none !important; }
     }
   </style>
 </head>
@@ -229,10 +265,25 @@
   <!-- Cute Preloader Screen -->
   <div
     id="preloader"
-    class="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 sm:p-6 select-none overflow-hidden transition-all duration-400 opacity-100 translate-y-0 scale-100"
+    class="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 sm:p-6 select-none overflow-hidden transition-all duration-700 ease-out opacity-100"
     style="background-color: #FAF7F0;"
     aria-label="10x Speed Loading Screen - Himang Panchal Portfolio"
   >
+    <!-- Full-screen expanding warp shockwave rings on exit -->
+    <div id="preloader-warp-rings" class="absolute inset-0 z-30 pointer-events-none flex items-center justify-center overflow-hidden hidden">
+      <div class="w-80 h-80 rounded-full border-[10px] border-[#FFE57F] animate-warp-expand"></div>
+      <div class="w-64 h-64 rounded-full border-[8px] border-[#FFAEC8] animate-warp-expand" style="animation-delay: 0.08s;"></div>
+      <div class="w-48 h-48 rounded-full border-[6px] border-[#A5D8FF] animate-warp-expand" style="animation-delay: 0.16s;"></div>
+    </div>
+
+    <!-- Full-screen speed streaks rushing across on exit -->
+    <div id="preloader-speed-streaks" class="absolute inset-0 z-40 pointer-events-none overflow-hidden hidden">
+      <div class="absolute top-[22%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#FFE57F] to-transparent animate-speed-rush"></div>
+      <div class="absolute top-[48%] left-0 w-full h-2.5 bg-gradient-to-r from-transparent via-[#FFAEC8] to-transparent animate-speed-rush" style="animation-delay: 0.06s;"></div>
+      <div class="absolute top-[68%] left-0 w-full h-2 bg-gradient-to-r from-transparent via-[#A5D8FF] to-transparent animate-speed-rush" style="animation-delay: 0.12s;"></div>
+      <div class="absolute top-[82%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#10B981] to-transparent animate-speed-rush" style="animation-delay: 0.18s;"></div>
+    </div>
+
     <!-- Cute Ambient Background Layer -->
     <div class="absolute top-1/6 -left-20 w-96 h-96 rounded-full bg-[#FFE57F]/45 blur-3xl pointer-events-none animate-pulse"></div>
     <div class="absolute top-1/4 -right-20 w-96 h-96 rounded-full bg-[#FFAEC8]/40 blur-3xl pointer-events-none animate-pulse" style="animation-delay: 1s;"></div>
@@ -259,8 +310,8 @@
     <span class="absolute text-xl sm:text-2xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 48%; left: 4%; transform: rotate(-14deg); animation-delay: 0.7s;">📦</span>
     <span class="absolute text-xl sm:text-2xl opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm" style="top: 52%; left: 94%; transform: rotate(12deg); animation-delay: 0.3s;">✨</span>
 
-    <!-- Large Central Half-Screen 10x Speed Card -->
-    <div class="relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all overflow-hidden">
+    <!-- Large Central Half-Screen 10x Speed Card: Spreads Out Into Full Screen on Exit -->
+    <div id="preloader-card" class="relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all duration-700 ease-out overflow-hidden">
       
       <!-- Top Caution / Speed Tape Accent -->
       <div
@@ -1723,22 +1774,47 @@
 
         if (typeof confetti === "function") {
           try {
+            // Twin full-screen cannon bursts
             confetti({
-              particleCount: 65,
-              spread: 85,
-              origin: { y: 0.55 },
+              particleCount: 75,
+              angle: 60,
+              spread: 90,
+              origin: { x: 0.05, y: 0.6 },
               colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"]
+            });
+            confetti({
+              particleCount: 75,
+              angle: 120,
+              spread: 90,
+              origin: { x: 0.95, y: 0.6 },
+              colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"]
+            });
+            confetti({
+              particleCount: 50,
+              spread: 120,
+              origin: { x: 0.5, y: 0.45 },
+              colors: ["#FFE57F", "#FFAEC8", "#A5D8FF"]
             });
           } catch(e) {}
         }
 
         setTimeout(function() {
-          preloader.classList.add("opacity-0", "-translate-y-6", "pointer-events-none", "scale-95");
+          var warpRings = document.getElementById("preloader-warp-rings");
+          var speedStreaks = document.getElementById("preloader-speed-streaks");
+          var card = document.getElementById("preloader-card");
+
+          if (warpRings) warpRings.classList.remove("hidden");
+          if (speedStreaks) speedStreaks.classList.remove("hidden");
+          if (card) {
+            card.className = "relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-transparent rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-none flex flex-col justify-between items-center text-center transition-all duration-700 ease-out overflow-hidden scale-[2.4] sm:scale-[3.0] opacity-0 blur-[2px]";
+          }
+          preloader.classList.add("opacity-0", "pointer-events-none");
+
           setTimeout(function() {
             if (preloader.parentNode) {
               preloader.parentNode.removeChild(preloader);
             }
-          }, 450);
+          }, 750);
         }, 650);
       }
 

@@ -65,21 +65,39 @@ export default function LoadingScreen() {
     setStepData(MILESTONES[3]);
 
     try {
+      // Left cannon shooting up & across full screen
       confetti({
-        particleCount: 65,
-        spread: 85,
-        origin: { y: 0.55 },
+        particleCount: 75,
+        angle: 60,
+        spread: 90,
+        origin: { x: 0.05, y: 0.6 },
         colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"],
+      });
+      // Right cannon shooting up & across full screen
+      confetti({
+        particleCount: 75,
+        angle: 120,
+        spread: 90,
+        origin: { x: 0.95, y: 0.6 },
+        colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"],
+      });
+      // Center star burst
+      confetti({
+        particleCount: 50,
+        spread: 120,
+        origin: { x: 0.5, y: 0.45 },
+        colors: ["#FFE57F", "#FFAEC8", "#A5D8FF"],
       });
     } catch {
       // safe fallback if canvas is not ready
     }
 
+    // Epic Full-Screen Warp Spread Exit Transition
     setTimeout(() => {
       setIsExiting(true);
       setTimeout(() => {
         setIsDone(true);
-      }, 450);
+      }, 750);
     }, 650);
   };
 
@@ -156,12 +174,31 @@ export default function LoadingScreen() {
   return (
     <div
       id="preloader"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 sm:p-6 select-none overflow-hidden transition-all duration-400 ${
-        isExiting ? "opacity-0 -translate-y-6 pointer-events-none scale-95" : "opacity-100 translate-y-0 scale-100"
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 sm:p-6 select-none overflow-hidden transition-all duration-700 ease-out ${
+        isExiting ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       style={{ backgroundColor: "#FAF7F0" }}
       aria-label="10x Speed Loading Screen - Himang Panchal Portfolio"
     >
+      {/* Full-screen expanding warp shockwave rings on exit */}
+      {isExiting && (
+        <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center overflow-hidden">
+          <div className="w-80 h-80 rounded-full border-[10px] border-[#FFE57F] animate-warp-expand" />
+          <div className="w-64 h-64 rounded-full border-[8px] border-[#FFAEC8] animate-warp-expand" style={{ animationDelay: "0.08s" }} />
+          <div className="w-48 h-48 rounded-full border-[6px] border-[#A5D8FF] animate-warp-expand" style={{ animationDelay: "0.16s" }} />
+        </div>
+      )}
+
+      {/* Full-screen speed streaks rushing across on exit */}
+      {isExiting && (
+        <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
+          <div className="absolute top-[22%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#FFE57F] to-transparent animate-speed-rush" />
+          <div className="absolute top-[48%] left-0 w-full h-2.5 bg-gradient-to-r from-transparent via-[#FFAEC8] to-transparent animate-speed-rush" style={{ animationDelay: "0.06s" }} />
+          <div className="absolute top-[68%] left-0 w-full h-2 bg-gradient-to-r from-transparent via-[#A5D8FF] to-transparent animate-speed-rush" style={{ animationDelay: "0.12s" }} />
+          <div className="absolute top-[82%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#10B981] to-transparent animate-speed-rush" style={{ animationDelay: "0.18s" }} />
+        </div>
+      )}
+
       {/* ── Cute Ambient Background Layer ── */}
       {/* Soft pastel blurred ambient speed glows */}
       <div className="absolute top-1/6 -left-20 w-96 h-96 rounded-full bg-[#FFE57F]/45 blur-3xl pointer-events-none animate-pulse" />
@@ -194,8 +231,14 @@ export default function LoadingScreen() {
         </span>
       ))}
 
-      {/* ── Large Central Half-Screen 10x Speed Card ── */}
-      <div className="relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all overflow-hidden">
+      {/* ── Large Central Half-Screen 10x Speed Card: Spreads Out Into Full Screen on Exit ── */}
+      <div
+        className={`relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all duration-700 ease-out overflow-hidden ${
+          isExiting
+            ? "scale-[2.4] sm:scale-[3.0] opacity-0 blur-[2px] shadow-none"
+            : "scale-100 opacity-100"
+        }`}
+      >
         
         {/* Top Caution / Speed Tape Accent */}
         <div
