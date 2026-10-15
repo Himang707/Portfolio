@@ -943,24 +943,42 @@
                 </ul>
               </div>
 
-              <!-- Quick Facts & Quirks Card with Emojis to fill blank space -->
+              <!-- Live Radar & Current Sprint Card with Metrics -->
               <div class="bg-white border-2 border-black rounded-2xl p-5 shadow-brutal -rotate-1">
                 <div class="flex items-center justify-between pb-2 border-b border-black/10 mb-3">
-                  <span class="font-space font-black text-xs uppercase tracking-wider text-black">⚡ QUICK FACTS &amp; QUIRKS</span>
-                  <span>✨</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#FFAEC8] border border-black"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#FFE57F] border border-black"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#A7F3D0] border border-black"></span>
+                    <span class="ml-1 font-space font-black text-xs uppercase tracking-wider text-black">⚡ LIVE SPRINT RADAR</span>
+                  </div>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#A7F3D0] border border-black font-space font-black text-[9px] text-[#065F46]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping"></span>
+                    ACTIVE
+                  </span>
                 </div>
-                <div class="grid grid-cols-2 gap-2 text-xs font-space font-bold">
-                  <div class="bg-[#FFE57F] border border-black p-2 rounded-lg flex items-center gap-1.5 shadow-brutal-xs">
-                    <span>☕</span> 4+ Chai / Sprint
+                <div class="space-y-2 mb-3 text-xs font-space">
+                  <div class="p-2 rounded-lg bg-[#FAF7F0] border border-black/15 flex items-start gap-2">
+                    <span>🚀</span>
+                    <div><strong>Udayaan Tech &amp; Udyra:</strong> High-throughput Go identity services &amp; modern frontends.</div>
                   </div>
-                  <div class="bg-[#A5D8FF] border border-black p-2 rounded-lg flex items-center gap-1.5 shadow-brutal-xs">
-                    <span>⚡</span> 60 FPS Polish
+                  <div class="p-2 rounded-lg bg-[#FAF7F0] border border-black/15 flex items-start gap-2">
+                    <span>🏆</span>
+                    <div><strong>SIH 2026 Nyay Suraksha:</strong> Multi-agent legal citation engine &amp; smart assistants.</div>
                   </div>
-                  <div class="bg-[#FFAEC8] border border-black p-2 rounded-lg flex items-center gap-1.5 shadow-brutal-xs">
-                    <span>🤖</span> Vector &amp; AI
+                </div>
+                <div class="grid grid-cols-3 gap-1.5 text-center font-space">
+                  <div class="bg-[#FFE57F] border border-black p-1.5 rounded-lg shadow-brutal-xs">
+                    <div class="font-black text-xs">100%</div>
+                    <div class="text-[9px] font-bold text-gray-700">Vitals</div>
                   </div>
-                  <div class="bg-[#D8B4FE] border border-black p-2 rounded-lg flex items-center gap-1.5 shadow-brutal-xs">
-                    <span>🎧</span> Lo-Fi &amp; Synth
+                  <div class="bg-[#A5D8FF] border border-black p-1.5 rounded-lg shadow-brutal-xs">
+                    <div class="font-black text-xs">&lt;120ms</div>
+                    <div class="text-[9px] font-bold text-gray-700">Vector</div>
+                  </div>
+                  <div class="bg-[#FFAEC8] border border-black p-1.5 rounded-lg shadow-brutal-xs">
+                    <div class="font-black text-xs">36h+</div>
+                    <div class="text-[9px] font-bold text-gray-700">Sprint</div>
                   </div>
                 </div>
               </div>
