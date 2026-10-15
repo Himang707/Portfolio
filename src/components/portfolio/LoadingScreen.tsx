@@ -39,7 +39,7 @@ const MILESTONES: Milestone[] = [
 
 const CUTE_FLOATERS = [
   { emoji: "⚡", top: "10%", left: "7%", size: "text-2xl sm:text-3xl", rot: "-12deg", delay: "0s" },
-  { emoji: "🏎️", top: "15%", left: "86%", size: "text-4xl sm:text-5xl", rot: "15deg", delay: "0.4s" },
+  { emoji: "🏎️", top: "15%", left: "86%", size: "text-4xl sm:text-5xl", rot: "15deg", delay: "0.4s", flipX: true },
   { emoji: "🌸", top: "25%", left: "11%", size: "text-xl sm:text-2xl", rot: "10deg", delay: "0.8s" },
   { emoji: "⭐", top: "34%", left: "91%", size: "text-2xl sm:text-3xl", rot: "-10deg", delay: "0.2s" },
   { emoji: "☕", top: "70%", left: "6%", size: "text-2xl sm:text-3xl", rot: "8deg", delay: "1.1s" },
@@ -187,7 +187,7 @@ export default function LoadingScreen() {
             top: item.top,
             left: item.left,
             animationDelay: item.delay,
-            transform: `rotate(${item.rot})`,
+            transform: `rotate(${item.rot})${item.flipX ? " scaleX(-1)" : ""}`,
           }}
         >
           {item.emoji}
@@ -245,7 +245,7 @@ export default function LoadingScreen() {
 
             {/* Cute floating badges beside mascot */}
             <div className="hidden md:flex items-center gap-1.5 absolute -left-16 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
-              <span className="text-xl sm:text-2xl">🏎️</span>
+              <span className="text-xl sm:text-2xl inline-block" style={{ transform: "scaleX(-1)" }}>🏎️</span>
               <span>0-60 in 0.4s</span>
             </div>
             <div className="hidden md:flex absolute -right-14 top-10 bg-[#FFAEC8] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs rotate-6">
@@ -414,8 +414,11 @@ export default function LoadingScreen() {
                   💨
                 </span>
               )}
-              {/* Big High-Impact Racing Car */}
-              <span className="text-4xl sm:text-5xl drop-shadow-md select-none inline-block filter transform transition-transform">
+              {/* Big High-Impact Racing Car (Front facing right, back facing left) */}
+              <span
+                className="text-4xl sm:text-5xl drop-shadow-md select-none inline-block filter"
+                style={{ transform: "scaleX(-1)" }}
+              >
                 🏎️
               </span>
               {/* Turbo Spark at High Speed */}
