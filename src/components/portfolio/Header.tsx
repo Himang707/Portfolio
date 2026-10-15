@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-4 z-50 px-4 md:px-8 max-w-7xl mx-auto w-full">
-      <div className="bg-white border-2 border-black rounded-xl md:rounded-2xl px-5 py-3 md:py-3.5 shadow-brutal flex items-center justify-between transition-all">
+      <div className="bg-white/80 backdrop-blur-xl border-2 border-black rounded-xl md:rounded-2xl px-5 py-2.5 md:py-3 shadow-brutal flex items-center justify-between transition-all">
         {/* Wordmark with Himang Panchal's identity and custom logo */}
         <a
           href="#"
@@ -24,35 +24,35 @@ export default function Header() {
           <SparkleStar className="w-4 h-4 text-[#D8B4FE] animate-spin-slow hidden sm:block ml-1" />
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 font-space font-semibold text-sm">
+        {/* Desktop Navigation Links with Frosted Glassmorphism Pill */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] backdrop-blur-md border border-black/15 shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),_0_2px_6px_rgba(0,0,0,0.03)] font-space font-bold text-sm">
           <a
             href="#about"
-            className="text-black hover:text-gray-600 relative py-1 hover:underline underline-offset-4 decoration-2 decoration-[#FFE57F] transition-all"
+            className="px-3.5 py-1.5 rounded-full text-black/85 hover:text-black hover:bg-[#FFE57F] hover:border-black hover:shadow-brutal-xs border border-transparent transition-all duration-150"
           >
             About
           </a>
           <a
             href="#skills"
-            className="text-black hover:text-gray-600 relative py-1 hover:underline underline-offset-4 decoration-2 decoration-[#A5D8FF] transition-all"
+            className="px-3.5 py-1.5 rounded-full text-black/85 hover:text-black hover:bg-[#A5D8FF] hover:border-black hover:shadow-brutal-xs border border-transparent transition-all duration-150"
           >
             Arsenal
           </a>
           <a
             href="#projects"
-            className="text-black hover:text-gray-600 relative py-1 hover:underline underline-offset-4 decoration-2 decoration-[#FFAEC8] transition-all"
+            className="px-3.5 py-1.5 rounded-full text-black/85 hover:text-black hover:bg-[#FFAEC8] hover:border-black hover:shadow-brutal-xs border border-transparent transition-all duration-150"
           >
             Projects
           </a>
           <a
             href="#hackathons"
-            className="text-black hover:text-gray-600 relative py-1 hover:underline underline-offset-4 decoration-2 decoration-[#D8B4FE] transition-all"
+            className="px-3.5 py-1.5 rounded-full text-black/85 hover:text-black hover:bg-[#D8B4FE] hover:border-black hover:shadow-brutal-xs border border-transparent transition-all duration-150"
           >
             Hackathons
           </a>
           <a
             href="#testimonials"
-            className="text-black hover:text-gray-600 relative py-1 hover:underline underline-offset-4 decoration-2 decoration-[#A7F3D0] transition-all"
+            className="px-3.5 py-1.5 rounded-full text-black/85 hover:text-black hover:bg-[#A7F3D0] hover:border-black hover:shadow-brutal-xs border border-transparent transition-all duration-150"
           >
             Reviews
           </a>
@@ -80,9 +80,9 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown with Frosted Glassmorphism */}
       {mobileMenuOpen && (
-        <div className="md:hidden mt-2 bg-white border-2 border-black rounded-xl p-4 shadow-brutal flex flex-col gap-3 font-space font-bold text-base">
+        <div className="md:hidden mt-2 bg-white/85 backdrop-blur-xl border-2 border-black rounded-xl p-4 shadow-brutal flex flex-col gap-3 font-space font-bold text-base">
           <a
             href="#about"
             onClick={() => setMobileMenuOpen(false)}
