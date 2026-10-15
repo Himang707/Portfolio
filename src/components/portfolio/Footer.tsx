@@ -95,9 +95,18 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-space text-xs text-gray-600">
           <div>
-            &copy; {new Date().getFullYear()} Himang Panchal. Crafted with passion, code &amp; lots of tea ☕
+            &copy; {new Date().getFullYear()} Himang Panchal. Crafted with passion, clean code &amp; design ✨
           </div>
-          <div className="flex items-center gap-2 font-medium">
+          <div className="flex items-center gap-2.5 font-medium flex-wrap justify-center">
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("replay-welcome"))}
+              className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#FFE57F] hover:bg-[#FFAEC8] border-2 border-black rounded-lg shadow-brutal-xs font-space font-black text-[11px] text-black transition-all hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+              title="Click to replay the welcoming loader animation"
+            >
+              <span>👋</span>
+              <span>Replay Welcome Screen</span>
+            </button>
+            <span>•</span>
             <span>Rai University &apos;29</span>
             <span>•</span>
             <span>Built with React, Next.js &amp; Tailwind CSS</span>

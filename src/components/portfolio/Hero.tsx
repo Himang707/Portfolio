@@ -136,7 +136,7 @@ export default function Hero() {
           {/* Quick Personality Badges with Emojis to fulfill whitespace */}
           <div className="pt-1 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
-              <span>☕</span> Chai Fueled
+              <span>✨</span> Clean Architecture
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FAF7F0] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
               <span>⚡</span> 60 FPS Polish

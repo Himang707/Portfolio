@@ -45,7 +45,7 @@ export default function Contact() {
         {/* Floating Bottom Stickers */}
         <div className="absolute -bottom-5 left-6 sm:left-10 z-20 hidden md:block">
           <div className="bg-[#FFE57F] border-2 border-black px-3.5 py-1.5 rounded-lg shadow-brutal-xs font-space font-extrabold text-xs text-black -rotate-3 hover:rotate-0 transition-transform flex items-center gap-1.5">
-            <span>☕ Powered by Chai &amp; Curiosity</span>
+            <span>⚡ Powered by Code &amp; Curiosity</span>
           </div>
         </div>
 

@@ -105,7 +105,7 @@ export default function About() {
             {/* Playful Personality Badges & Emojis to eliminate blank space */}
             <div className="pt-2 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FFE57F] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
-                <span>☕</span> 4+ Cups Chai / Sprint
+                <span>⚡</span> Rapid Sprint Shipping
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#A5D8FF] border border-black rounded-lg text-xs font-space font-extrabold text-black shadow-brutal-xs hover:-translate-y-0.5 transition-transform">
                 <span>⚡</span> 60 FPS Tactile Polish

@@ -13,26 +13,26 @@ interface Milestone {
 const MILESTONES: Milestone[] = [
   {
     target: 25,
-    text: "Igniting 10x Speed Engine... 🏎️💨",
-    sub: "Optimizing Critical Rendering Path",
+    text: "Welcome! Initializing... ✨",
+    sub: "Stage 1 · Welcome",
     stageBadge: "STAGE 1/4 · 25%",
   },
   {
     target: 50,
-    text: "Splitting CSS & Inlining Fonts... ⚡",
-    sub: "font-display: swap unblocking render",
+    text: "Loading Projects... 💻",
+    sub: "Stage 2 · Curating",
     stageBadge: "STAGE 2/4 · 50%",
   },
   {
     target: 75,
-    text: "Lazy Loading WebP Graphics... 📦",
-    sub: "Zero render-blocking assets",
+    text: "Polishing Design... ⚡",
+    sub: "Stage 3 · Details",
     stageBadge: "STAGE 3/4 · 75%",
   },
   {
     target: 100,
-    text: "10x Speed Achieved! Entering Himang's World... 🚀",
-    sub: "Lighthouse 100/100 Core Web Vitals",
+    text: "Ready! Welcome in! 🚀",
+    sub: "Stage 4 · All Set",
     stageBadge: "STAGE 4/4 · 100%",
   },
 ];
@@ -42,7 +42,7 @@ const CUTE_FLOATERS = [
   { emoji: "🏎️", top: "15%", left: "86%", size: "text-4xl sm:text-5xl", rot: "15deg", delay: "0.4s", flipX: true },
   { emoji: "🌸", top: "25%", left: "11%", size: "text-xl sm:text-2xl", rot: "10deg", delay: "0.8s" },
   { emoji: "⭐", top: "34%", left: "91%", size: "text-2xl sm:text-3xl", rot: "-10deg", delay: "0.2s" },
-  { emoji: "☕", top: "70%", left: "6%", size: "text-2xl sm:text-3xl", rot: "8deg", delay: "1.1s" },
+  { emoji: "💻", top: "70%", left: "6%", size: "text-2xl sm:text-3xl", rot: "8deg", delay: "1.1s" },
   { emoji: "✦", top: "86%", left: "14%", size: "text-xl sm:text-2xl", rot: "14deg", delay: "0.3s" },
   { emoji: "🚀", top: "82%", left: "80%", size: "text-2xl sm:text-3xl", rot: "18deg", delay: "0.9s" },
   { emoji: "🏁", top: "12%", left: "50%", size: "text-xl sm:text-2xl", rot: "-6deg", delay: "0.6s" },
@@ -166,6 +166,19 @@ export default function LoadingScreen() {
     };
   }, []);
 
+  // Listen to replay-welcome event from footer
+  useEffect(() => {
+    const handleReplay = () => {
+      setIsDone(false);
+      setIsExiting(false);
+      setProgress(0);
+      setStepData(MILESTONES[0]);
+      isCancelledRef.current = false;
+    };
+    window.addEventListener("replay-welcome", handleReplay);
+    return () => window.removeEventListener("replay-welcome", handleReplay);
+  }, []);
+
   if (isDone) return null;
 
   // Calculate live speedometer speed readout (0.0x to 10.0x)
@@ -178,7 +191,7 @@ export default function LoadingScreen() {
         isExiting ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
       style={{ backgroundColor: "#FAF7F0" }}
-      aria-label="10x Speed Loading Screen - Himang Panchal Portfolio"
+      aria-label="Welcome Loading Screen - Himang Panchal Portfolio"
     >
       {/* Full-screen expanding warp shockwave rings on exit */}
       {isExiting && (
@@ -199,8 +212,7 @@ export default function LoadingScreen() {
         </div>
       )}
 
-      {/* ── Cute Ambient Background Layer ── */}
-      {/* Soft pastel blurred ambient speed glows */}
+      {/* ── Ambient Background Layer ── */}
       <div className="absolute top-1/6 -left-20 w-96 h-96 rounded-full bg-[#FFE57F]/45 blur-3xl pointer-events-none animate-pulse" />
       <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full bg-[#FFAEC8]/40 blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: "1s" }} />
       <div className="absolute -bottom-24 left-1/4 w-[30rem] h-[30rem] rounded-full bg-[#A5D8FF]/40 blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: "2s" }} />
@@ -231,7 +243,7 @@ export default function LoadingScreen() {
         </span>
       ))}
 
-      {/* ── Large Central Half-Screen 10x Speed Card: Spreads Out Into Full Screen on Exit ── */}
+      {/* ── Central Main Card ── */}
       <div
         className={`relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all duration-700 ease-out overflow-hidden ${
           isExiting
@@ -239,7 +251,6 @@ export default function LoadingScreen() {
             : "scale-100 opacity-100"
         }`}
       >
-        
         {/* Top Caution / Speed Tape Accent */}
         <div
           className="w-full h-2 rounded-full border border-black overflow-hidden mb-3 opacity-90 shadow-brutal-xs"
@@ -257,7 +268,7 @@ export default function LoadingScreen() {
             <span className="w-3.5 h-3.5 rounded-full bg-[#A7F3D0] border-2 border-black shadow-brutal-xs" />
           </div>
 
-          {/* Center Stage & Turbo Badge */}
+          {/* Center Stage Badge */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#FFE57F] border-2 border-black rounded-full font-space font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-brutal-xs -rotate-1 animate-turbo-pulse">
             <span>⚡</span>
             <span>{stepData.stageBadge}</span>
@@ -281,8 +292,8 @@ export default function LoadingScreen() {
             <div className="w-12 h-1 bg-[#A5D8FF] rounded-full border border-black/20 animate-speed-streak-1 self-center" />
           </div>
 
-          {/* Steaming Chai Cup in Racing Goggles */}
-          <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex flex-col items-center justify-center mb-2">
+          {/* Steaming Mug Mascot in Racing Goggles */}
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex flex-col items-center justify-center mb-0.5 sm:mb-1">
             {/* Ambient soft glow ring */}
             <div className="absolute inset-4 rounded-full bg-[#FFE57F]/65 blur-xl pointer-events-none" />
 
@@ -292,12 +303,12 @@ export default function LoadingScreen() {
               <span>0-60 in 0.4s</span>
             </div>
             <div className="hidden md:flex absolute -right-14 top-10 bg-[#FFAEC8] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs rotate-6">
-              ☕ Powered by Chai
+              ✨ VIP Guest
             </div>
 
-            {/* Steam curls and speed sparks above cup */}
+            {/* Speed sparks & curls above mascot */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 pointer-events-none">
-              <span className="text-sm animate-steam-1">♨️</span>
+              <span className="text-sm animate-steam-1">✨</span>
               <span className="text-xs animate-steam-2">⚡</span>
               <span className="text-sm animate-steam-1" style={{ animationDelay: "1.2s" }}>💨</span>
             </div>
@@ -321,7 +332,7 @@ export default function LoadingScreen() {
                   strokeWidth="4"
                   strokeLinejoin="round"
                 />
-                {/* Cup Rim & Drink */}
+                {/* Cup Rim & Top */}
                 <ellipse cx="50" cy="32" rx="24" ry="6.5" fill="#FFFDF9" stroke="#111111" strokeWidth="3.5" />
                 <ellipse cx="50" cy="32" rx="18" ry="4" fill="#FFAEC8" />
 
@@ -349,7 +360,7 @@ export default function LoadingScreen() {
                 {/* Happy Smiling Open Mouth */}
                 <path d="M46 57 Q 50 63 54 57" fill="none" stroke="#111111" strokeWidth="2.8" strokeLinecap="round" />
 
-                {/* Turbo Heart on Cup */}
+                {/* Turbo Heart on Mascot */}
                 <path
                   d="M50 69 C 50 69, 44 64, 44 61.5 C 44 59.5, 46.5 58.5, 48.5 60 L50 61.5 L51.5 60 C 53.5 58.5, 56 59.5, 56 61.5 C 56 64, 50 69, 50 69 Z"
                   fill="#FFAEC8"
@@ -359,16 +370,16 @@ export default function LoadingScreen() {
               </svg>
             </div>
 
-            {/* Soft cup shadow */}
+            {/* Soft shadow */}
             <div className="w-24 sm:w-28 h-3 bg-black/15 rounded-full blur-[1.5px] animate-cup-shadow -mt-1" />
           </div>
 
-          {/* Title & Friendly Headline */}
-          <h2 className="font-space font-black text-2xl sm:text-3xl md:text-4xl text-black tracking-tight mb-1">
-            Loading Himang&apos;s Portfolio
+          {/* Minimal Welcoming Title - shifted a little upward */}
+          <h2 className="font-space font-black text-2xl sm:text-3xl md:text-4xl text-black tracking-tight -mt-2 sm:-mt-3 mb-2">
+            Welcome to Himang&apos;s Portfolio 👋
           </h2>
 
-          {/* Dynamic 25% Stepped Status Capsule */}
+          {/* Minimal Stepped Status Capsule */}
           <div className="inline-flex flex-col items-center gap-1 px-4 sm:px-6 py-2 bg-[#FAF7F0] border-2 border-black rounded-2xl shadow-brutal-xs">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping" />
@@ -381,7 +392,7 @@ export default function LoadingScreen() {
             </span>
           </div>
 
-          {/* 10x Speed 4-Quadrant Telemetry HUD (Directly unlocks with each 25% stage) */}
+          {/* 4-Quadrant Milestone HUD */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-3 sm:mt-4">
             {/* Step 1: 25% Milestone Card */}
             <div
@@ -393,7 +404,7 @@ export default function LoadingScreen() {
                 {progress >= 25 ? "✓ 25% Stage 1" : "Stage 1 (25%)"}
               </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>⚡</span> 10x Engine
+                <span>⚡</span> Welcome
               </span>
             </div>
 
@@ -407,7 +418,7 @@ export default function LoadingScreen() {
                 {progress >= 50 ? "✓ 50% Stage 2" : "Stage 2 (50%)"}
               </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>⏱️</span> 0.18s Paint
+                <span>💻</span> Projects
               </span>
             </div>
 
@@ -421,7 +432,7 @@ export default function LoadingScreen() {
                 {progress >= 75 ? "✓ 75% Stage 3" : "Stage 3 (75%)"}
               </span>
               <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>📦</span> Split CSS
+                <span>✨</span> Polish
               </span>
             </div>
 
@@ -435,7 +446,7 @@ export default function LoadingScreen() {
                 {progress >= 100 ? "✓ 100% Ready" : "Stage 4 (100%)"}
               </span>
               <span className="font-space font-black text-xs sm:text-sm text-[#065F46] flex items-center gap-1">
-                <span>💯</span> 100/100 Vitals
+                <span>🚀</span> Ready
               </span>
             </div>
           </div>

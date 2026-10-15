@@ -5,7 +5,7 @@ import React from "react";
 export default function BottomTicker() {
   const items = [
     "🚀 OPEN TO FULL-TIME ROLES",
-    "☕ FUELED BY CHAI & PASSION",
+    "⚡ POWERED BY CODE & PASSION",
     "💻 REACT · NEXT.JS · PYTHON · AI",
     "⚡ 60 FPS CRAFTSMANSHIP",
     "📍 AHMEDABAD, GUJARAT, INDIA",
