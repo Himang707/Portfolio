@@ -14,10 +14,14 @@ import Contact from "@/components/portfolio/Contact";
 import BottomTicker from "@/components/portfolio/BottomTicker";
 import Footer from "@/components/portfolio/Footer";
 import EmojiBackground from "@/components/portfolio/EmojiBackground";
+import LoadingScreen from "@/components/portfolio/LoadingScreen";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-[#FAF7F0] text-[#111111] font-space selection:bg-[#FFE57F] selection:text-black overflow-x-hidden">
+      {/* Cute introductory loading screen with animated mascot & background */}
+      <LoadingScreen />
+
       {/* Ambient background with subtle drifting signature emojis */}
       <EmojiBackground />
 
