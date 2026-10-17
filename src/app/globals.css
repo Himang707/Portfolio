@@ -537,5 +537,190 @@ body {
   animation: bubble-wiggle 2.4s ease-in-out infinite;
 }
 
+/* ================================================================
+   NATURE & WELCOME SCREEN ANIMATIONS
+================================================================ */
+@keyframes sunbeam-pulse {
+  0%, 100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+.animate-sunbeam-pulse {
+  animation: sunbeam-pulse 7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes leaf-drift {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-12px) translateX(6px) rotate(6deg);
+  }
+  50% {
+    transform: translateY(8px) translateX(-8px) rotate(-4deg);
+  }
+  75% {
+    transform: translateY(-6px) translateX(10px) rotate(4deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+}
+
+.animate-leaf-drift {
+  animation: leaf-drift 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes plant-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(2.5deg);
+  }
+  70% {
+    transform: rotate(-2.2deg);
+  }
+}
+
+.animate-plant-sway {
+  animation: plant-sway 4.2s ease-in-out infinite;
+  transform-origin: 80px 92px;
+  will-change: transform;
+}
+
+@keyframes flower-bloom {
+  0% {
+    transform: scale(0) rotate(-30deg);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.18) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-flower-bloom {
+  animation: flower-bloom 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  will-change: transform;
+}
+
+@keyframes leaf-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-leaf-pop {
+  animation: leaf-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes mascot-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-mascot-sway {
+  animation: mascot-sway 3.2s ease-in-out infinite;
+}
+
+@keyframes mascot-wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-22deg);
+  }
+  40% {
+    transform: rotate(12deg);
+  }
+  60% {
+    transform: rotate(-18deg);
+  }
+  80% {
+    transform: rotate(8deg);
+  }
+}
+
+.animate-mascot-wave {
+  animation: mascot-wave 1.5s ease-in-out infinite;
+  transform-origin: 36px 65px;
+}
+
+@keyframes speech-bubble-float {
+  0%, 100% {
+    transform: translate(-50%, 0px);
+  }
+  50% {
+    transform: translate(-50%, -4px);
+  }
+}
+
+.animate-speech-bubble-float {
+  animation: speech-bubble-float 3s ease-in-out infinite;
+}
+
+@keyframes leaf-glide {
+  0% {
+    transform: translateX(-30px) rotate(-15deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(200px) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.animate-leaf-glide {
+  animation: leaf-glide 1.6s ease-in-out infinite;
+}
+
+/* Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-sunbeam-pulse,
+  .animate-leaf-drift,
+  .animate-plant-sway,
+  .animate-flower-bloom,
+  .animate-leaf-pop,
+  .animate-mascot-sway,
+  .animate-mascot-wave,
+  .animate-speech-bubble-float,
+  .animate-leaf-glide {
+    animation: none !important;
+    transition: opacity 0.2s ease !important;
+  }
+}
+
 
 

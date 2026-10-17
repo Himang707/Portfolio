@@ -56,14 +56,26 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Oversized Headline */}
-          <div className="space-y-2">
+          {/* Oversized Headline with Eye-Catching Himang Panchal Anchor */}
+          <div className="space-y-3">
+            {/* Hi, I'm Himang Panchal Anchor */}
+            <div className="flex items-center gap-2 animate-slide-up">
+              <span className="font-space font-extrabold text-base sm:text-xl text-[#355E3B] tracking-tight">
+                Hi, I&apos;m
+              </span>
+              <span className="relative inline-block">
+                <span className="relative z-10 font-space font-black text-2xl sm:text-3xl md:text-4xl text-black bg-[#FFE57F] px-3.5 py-1 border-2 border-black rounded-xl shadow-brutal-sm -rotate-1 inline-block hover:rotate-0 transition-transform cursor-pointer">
+                  Himang Panchal ✨
+                </span>
+              </span>
+            </div>
+
             <h1 className="font-space font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight text-black">
               I design ✍️ <br className="hidden sm:inline" />
               top notch{" "}
               <span className="relative inline-block mt-1 sm:mt-0">
                 {/* Pastel Yellow Highlight behind "websites" */}
-                <span className="relative z-10 px-3 py-0.5 bg-[#FFE57F] border-2 border-black rounded-md shadow-brutal-sm -rotate-1 inline-block">
+                <span className="relative z-10 px-3 py-0.5 bg-[#A5D8FF] border-2 border-black rounded-md shadow-brutal-sm rotate-1 inline-block">
                   websites
                 </span>
               </span>{" "}
@@ -75,7 +87,7 @@ export default function Hero() {
               <span className="font-space font-bold text-xs uppercase tracking-widest text-gray-500">
                 ROLE:
               </span>
-              <span className="font-space font-extrabold text-base sm:text-lg text-black bg-[#A5D8FF] px-2.5 py-0.5 border border-black rounded shadow-brutal-xs">
+              <span className="font-space font-extrabold text-base sm:text-lg text-black bg-[#FAF7F0] px-2.5 py-0.5 border border-black rounded shadow-brutal-xs">
                 {ROLES[roleIdx]}
               </span>
             </div>

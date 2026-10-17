@@ -1,110 +1,146 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import confetti from "canvas-confetti";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import FloatingLeaves from "./welcome/FloatingLeaves";
+import SproutMascot from "./welcome/SproutMascot";
+import GrowingPlant from "./welcome/GrowingPlant";
+import { ArrowRight, Leaf } from "lucide-react";
+import { playEnterSound, getSoundEnabled, setSoundEnabled } from "@/lib/soundEffects";
 
-interface Milestone {
-  target: number;
+interface WelcomeStep {
   text: string;
   sub: string;
-  stageBadge: string;
+  targetProgress: number;
 }
 
-const MILESTONES: Milestone[] = [
+const WELCOME_MESSAGES: WelcomeStep[] = [
   {
-    target: 25,
-    text: "Welcome! Initializing... ✨",
-    sub: "Stage 1 · Welcome",
-    stageBadge: "STAGE 1/4 · 25%",
+    text: "Hey there! 👋",
+    sub: "Initializing your visit",
+    targetProgress: 24,
   },
   {
-    target: 50,
-    text: "Loading Projects... 💻",
-    sub: "Stage 2 · Curating",
-    stageBadge: "STAGE 2/4 · 50%",
+    text: "Welcome to my little corner of the internet.",
+    sub: "Loading typography & natural palette",
+    targetProgress: 48,
   },
   {
-    target: 75,
-    text: "Polishing Design... ⚡",
-    sub: "Stage 3 · Details",
-    stageBadge: "STAGE 3/4 · 75%",
+    text: "You're here to see my work... right? 👀",
+    sub: "Gathering visual assets & projects",
+    targetProgress: 72,
   },
   {
-    target: 100,
-    text: "Ready! Welcome in! 🚀",
-    sub: "Stage 4 · All Set",
-    stageBadge: "STAGE 4/4 · 100%",
+    text: "Great! Pretend you didn't see my unfinished projects. 😂",
+    sub: "Fine-tuning layout & micro-interactions",
+    targetProgress: 90,
   },
-];
-
-const CUTE_FLOATERS = [
-  { emoji: "⚡", top: "10%", left: "7%", size: "text-2xl sm:text-3xl", rot: "-12deg", delay: "0s" },
-  { emoji: "🏎️", top: "15%", left: "86%", size: "text-4xl sm:text-5xl", rot: "15deg", delay: "0.4s", flipX: true },
-  { emoji: "🌸", top: "25%", left: "11%", size: "text-xl sm:text-2xl", rot: "10deg", delay: "0.8s" },
-  { emoji: "⭐", top: "34%", left: "91%", size: "text-2xl sm:text-3xl", rot: "-10deg", delay: "0.2s" },
-  { emoji: "💻", top: "70%", left: "6%", size: "text-2xl sm:text-3xl", rot: "8deg", delay: "1.1s" },
-  { emoji: "✦", top: "86%", left: "14%", size: "text-xl sm:text-2xl", rot: "14deg", delay: "0.3s" },
-  { emoji: "🚀", top: "82%", left: "80%", size: "text-2xl sm:text-3xl", rot: "18deg", delay: "0.9s" },
-  { emoji: "🏁", top: "12%", left: "50%", size: "text-xl sm:text-2xl", rot: "-6deg", delay: "0.6s" },
-  { emoji: "💖", top: "90%", left: "48%", size: "text-xl sm:text-2xl", rot: "6deg", delay: "1.0s" },
-  { emoji: "📦", top: "48%", left: "4%", size: "text-xl sm:text-2xl", rot: "-14deg", delay: "0.7s" },
-  { emoji: "✨", top: "52%", left: "94%", size: "text-xl sm:text-2xl", rot: "12deg", delay: "0.3s" },
+  {
+    text: "Just preparing something awesome for you...",
+    sub: "Finalizing ready state",
+    targetProgress: 100,
+  },
 ];
 
 export default function LoadingScreen() {
+  const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [stepData, setStepData] = useState<Milestone>(MILESTONES[0]);
-  const [isDone, setIsDone] = useState(false);
+  const [isAssetsReady, setIsAssetsReady] = useState(false);
+  const [isReadyToEnter, setIsReadyToEnter] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
 
   const isCancelledRef = useRef(false);
 
-  const completeLoading = () => {
-    isCancelledRef.current = true;
-    setProgress(100);
-    setStepData(MILESTONES[3]);
+  // Initialize sound preference
+  useEffect(() => {
+    setSoundOn(getSoundEnabled());
+  }, []);
 
-    try {
-      // Left cannon shooting up & across full screen
-      confetti({
-        particleCount: 75,
-        angle: 60,
-        spread: 90,
-        origin: { x: 0.05, y: 0.6 },
-        colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"],
-      });
-      // Right cannon shooting up & across full screen
-      confetti({
-        particleCount: 75,
-        angle: 120,
-        spread: 90,
-        origin: { x: 0.95, y: 0.6 },
-        colors: ["#FFE57F", "#FFAEC8", "#A5D8FF", "#111111", "#10B981"],
-      });
-      // Center star burst
-      confetti({
-        particleCount: 50,
-        spread: 120,
-        origin: { x: 0.5, y: 0.45 },
-        colors: ["#FFE57F", "#FFAEC8", "#A5D8FF"],
-      });
-    } catch {
-      // safe fallback if canvas is not ready
+  // Trigger smooth exit transition into the portfolio with warm chime
+  const handleEnterWorld = useCallback(() => {
+    if (isExiting || isDone) return;
+    playEnterSound();
+    setIsExiting(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("welcome-entered"));
     }
-
-    // Epic Full-Screen Warp Spread Exit Transition
     setTimeout(() => {
-      setIsExiting(true);
-      setTimeout(() => {
-        setIsDone(true);
-      }, 750);
-    }, 650);
-  };
+      setIsDone(true);
+    }, 750);
+  }, [isExiting, isDone]);
 
+  // Measure ACTUAL Asset and Application Readiness
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const checkRealReadiness = async () => {
+      try {
+        // 1. Wait for DOM readyState
+        if (document.readyState !== "complete") {
+          await new Promise<void>((resolve) => {
+            const onReady = () => {
+              if (document.readyState === "complete") {
+                window.removeEventListener("readystatechange", onReady);
+                resolve();
+              }
+            };
+            window.addEventListener("readystatechange", onReady);
+            setTimeout(resolve, 800); // Safety fallback
+          });
+        }
+
+        // 2. Preload essential fonts
+        if (document.fonts) {
+          try {
+            await document.fonts.ready;
+          } catch {
+            // non-blocking
+          }
+        }
+
+        // 3. Preload essential visual assets without blocking
+        const coreImages = [
+          "/images/hp-logo.svg",
+          "/images/hp-artwork.png",
+          "/images/himang-portrait.jpg",
+        ];
+
+        const imagePromises = coreImages.map(
+          (src) =>
+            new Promise<void>((res) => {
+              const img = new Image();
+              img.src = src;
+              img.onload = () => res();
+              img.onerror = () => res(); // Never fail or block on asset failure
+            })
+        );
+
+        await Promise.race([
+          Promise.all(imagePromises),
+          new Promise((res) => setTimeout(res, 1200)), // 1.2s timeout
+        ]);
+
+        if (isSubscribed) {
+          setIsAssetsReady(true);
+        }
+      } catch {
+        if (isSubscribed) setIsAssetsReady(true);
+      }
+    };
+
+    checkRealReadiness();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
+  // Sequential progression through Messages 1 to 5
   useEffect(() => {
     isCancelledRef.current = false;
 
-    // Smooth ease-out quad interpolation function for progress increments
+    // Smooth numerical glide for honest progress updates
     const glideTo = (fromVal: number, toVal: number, durationMs: number): Promise<void> => {
       return new Promise((resolve) => {
         const startTime = performance.now();
@@ -112,7 +148,7 @@ export default function LoadingScreen() {
           if (isCancelledRef.current) return;
           const elapsed = now - startTime;
           const t = Math.min(1, elapsed / durationMs);
-          const eased = t * (2 - t);
+          const eased = t * (2 - t); // Ease-out quad
           const current = Math.round(fromVal + (toVal - fromVal) * eased);
           setProgress(current);
 
@@ -130,417 +166,257 @@ export default function LoadingScreen() {
     const sleep = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    // Sequenced 25% -> 50% -> 75% -> 100% progression with clear milestone pauses
-    const runSequence = async () => {
-      // Step 1: 0% to 25%
-      setStepData(MILESTONES[0]);
-      await glideTo(0, 25, 450);
+    const runWelcomeSequence = async () => {
+      // Step 1: "Hey there! 👋"
+      setCurrentStepIdx(0);
+      await glideTo(0, WELCOME_MESSAGES[0].targetProgress, 600);
       if (isCancelledRef.current) return;
-      await sleep(500); // dwell at 25%
+      await sleep(1400); // dwell time for message 1
 
-      // Step 2: 25% to 50%
-      setStepData(MILESTONES[1]);
-      await glideTo(25, 50, 450);
+      // Step 2: "Welcome to my little corner of the internet."
+      setCurrentStepIdx(1);
+      await glideTo(WELCOME_MESSAGES[0].targetProgress, WELCOME_MESSAGES[1].targetProgress, 650);
       if (isCancelledRef.current) return;
-      await sleep(500); // dwell at 50%
+      await sleep(1500); // dwell time for message 2
 
-      // Step 3: 50% to 75%
-      setStepData(MILESTONES[2]);
-      await glideTo(50, 75, 450);
+      // Step 3: "You're here to see my work... right? 👀"
+      setCurrentStepIdx(2);
+      await glideTo(WELCOME_MESSAGES[1].targetProgress, WELCOME_MESSAGES[2].targetProgress, 700);
       if (isCancelledRef.current) return;
-      await sleep(500); // dwell at 75%
+      await sleep(1600); // dwell time for message 3
 
-      // Step 4: 75% to 100%
-      setStepData(MILESTONES[3]);
-      await glideTo(75, 100, 450);
+      // Step 4: "Great! Pretend you didn't see my unfinished projects. 😂"
+      setCurrentStepIdx(3);
+      await glideTo(WELCOME_MESSAGES[2].targetProgress, WELCOME_MESSAGES[3].targetProgress, 750);
       if (isCancelledRef.current) return;
+      await sleep(1700); // dwell time for message 4
 
-      // Completion celebration at 100%
-      completeLoading();
+      // Step 5: "Just preparing something awesome for you..."
+      setCurrentStepIdx(4);
+      await glideTo(WELCOME_MESSAGES[3].targetProgress, 100, 800);
+      if (isCancelledRef.current) return;
+      await sleep(1000);
+
+      // Ready state unlocked
+      setIsReadyToEnter(true);
     };
 
-    runSequence();
+    runWelcomeSequence();
 
     return () => {
       isCancelledRef.current = true;
     };
   }, []);
 
-  // Listen to replay-welcome event from footer
+  // Keyboard accessibility: Enter or Space to enter or advance message
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        if (isReadyToEnter) {
+          e.preventDefault();
+          handleEnterWorld();
+        } else {
+          // Advance to next message on space/enter
+          setCurrentStepIdx((prev) => Math.min(WELCOME_MESSAGES.length - 1, prev + 1));
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isReadyToEnter, handleEnterWorld]);
+
+  // Listen to `replay-welcome` event from Footer.tsx
   useEffect(() => {
     const handleReplay = () => {
       setIsDone(false);
       setIsExiting(false);
+      setIsReadyToEnter(false);
       setProgress(0);
-      setStepData(MILESTONES[0]);
+      setCurrentStepIdx(0);
       isCancelledRef.current = false;
     };
+
     window.addEventListener("replay-welcome", handleReplay);
     return () => window.removeEventListener("replay-welcome", handleReplay);
   }, []);
 
   if (isDone) return null;
 
-  // Calculate live speedometer speed readout (0.0x to 10.0x)
-  const currentSpeed = (Math.min(10, progress / 10)).toFixed(1);
+  const currentMsg = WELCOME_MESSAGES[currentStepIdx] || WELCOME_MESSAGES[0];
 
   return (
     <div
       id="preloader"
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 sm:p-6 select-none overflow-hidden transition-all duration-700 ease-out ${
-        isExiting ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
-      style={{ backgroundColor: "#FAF7F0" }}
+      role="dialog"
+      aria-modal="true"
       aria-label="Welcome Loading Screen - Himang Panchal Portfolio"
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center p-3 pt-14 pb-8 sm:p-6 select-none overflow-hidden min-h-[100dvh] transition-all duration-750 ease-out ${
+        isExiting
+          ? "opacity-0 scale-[1.05] blur-[4px] pointer-events-none"
+          : "opacity-100 scale-100"
+      }`}
+      style={{ backgroundColor: "#F5F1E8" }}
     >
-      {/* Full-screen expanding warp shockwave rings on exit */}
-      {isExiting && (
-        <div className="absolute inset-0 z-30 pointer-events-none flex items-center justify-center overflow-hidden">
-          <div className="w-80 h-80 rounded-full border-[10px] border-[#FFE57F] animate-warp-expand" />
-          <div className="w-64 h-64 rounded-full border-[8px] border-[#FFAEC8] animate-warp-expand" style={{ animationDelay: "0.08s" }} />
-          <div className="w-48 h-48 rounded-full border-[6px] border-[#A5D8FF] animate-warp-expand" style={{ animationDelay: "0.16s" }} />
+      {/* ── Natural Floating Leaves, Sunbeams & Paper Texture ── */}
+      <FloatingLeaves />
+
+      {/* ── Top Floating Header Controls ── */}
+      <div className="absolute top-2.5 sm:top-6 inset-x-3 sm:inset-x-8 max-w-5xl mx-auto flex items-center justify-between z-20 pointer-events-auto">
+        {/* Natural Monogram & Status Badge */}
+        <div className="flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#FAF6EE]/90 backdrop-blur-md border border-[#252821]/20 rounded-full shadow-[2px_2px_0px_#252821] text-[#252821]">
+          {/* Himang's Artistic Bird Monogram Emblem */}
+          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#355E3B] text-[#F5F1E8] flex items-center justify-center p-0.5 sm:p-1">
+            <svg
+              viewBox="0 0 593 404"
+              fill="currentColor"
+              className="w-full h-full"
+            >
+              <path d="M 292 0 L 257 6 L 236 12 L 154 54 L 143 58 L 84 67 L 122 105 L 117 121 L 116 150 L 121 164 L 127 169 L 131 176 L 132 184 L 130 185 L 127 179 L 123 175 L 121 174 L 121 176 L 134 195 L 139 219 L 146 225 L 158 230 L 169 230 L 179 227 L 197 217 L 214 199 L 242 190 L 255 179 L 260 171 L 269 133 L 278 102 L 282 94 L 291 88 L 310 85 L 341 72 L 363 67 L 402 67 L 448 71 L 494 80 L 532 91 L 546 98 L 574 130 L 578 140 L 578 146 L 574 152 L 563 152 L 544 131 L 532 124 L 521 120 L 519 121 L 544 136 L 561 152 L 577 179 L 577 189 L 573 192 L 563 192 L 559 190 L 536 167 L 511 153 L 530 166 L 551 186 L 563 200 L 565 204 L 565 212 L 556 219 L 545 217 L 506 186 L 493 178 L 490 178 L 490 180 L 537 224 L 539 228 L 539 236 L 534 240 L 528 241 L 511 234 L 451 190 L 419 185 L 405 180 L 377 166 L 360 166 L 349 169 L 318 184 L 251 225 L 231 235 L 172 248 L 169 251 L 166 262 L 157 277 L 136 296 L 114 308 L 104 310 L 70 309 L 43 304 L 25 297 L 11 297 L 3 303 L 0 309 L 1 323 L 5 333 L 10 338 L 15 340 L 49 344 L 85 355 L 152 355 L 170 351 L 193 339 L 213 332 L 228 328 L 240 328 L 274 348 L 285 361 L 308 382 L 313 389 L 320 393 L 339 396 L 359 403 L 387 403 L 398 399 L 411 398 L 424 389 L 437 371 L 437 368 L 435 367 L 410 373 L 387 381 L 349 382 L 336 385 L 327 385 L 315 380 L 305 368 L 290 362 L 285 357 L 277 343 L 266 340 L 245 327 L 247 322 L 262 315 L 274 314 L 274 311 L 253 294 L 235 273 L 224 252 L 224 246 L 228 243 L 242 248 L 257 261 L 291 283 L 304 284 L 320 278 L 328 273 L 325 268 L 285 252 L 277 242 L 277 234 L 283 228 L 291 228 L 303 237 L 315 243 L 330 245 L 342 249 L 357 258 L 379 278 L 392 286 L 404 290 L 429 293 L 439 296 L 463 315 L 471 318 L 481 320 L 497 318 L 520 319 L 538 312 L 547 305 L 558 293 L 576 267 L 586 240 L 592 204 L 592 165 L 581 106 L 576 92 L 558 68 L 543 57 L 521 46 L 518 43 L 517 34 L 514 28 L 499 18 L 490 15 L 461 11 L 418 2 L 370 5 L 341 0 L 291 1 Z" />
+            </svg>
+          </div>
+          <span className="font-space font-bold text-xs sm:text-sm tracking-tight text-[#252821]">
+            Himang Panchal
+          </span>
+          <span className="text-[11px] text-[#355E3B] font-semibold hidden sm:inline">
+            · Portfolio Experience
+          </span>
         </div>
-      )}
 
-      {/* Full-screen speed streaks rushing across on exit */}
-      {isExiting && (
-        <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
-          <div className="absolute top-[22%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#FFE57F] to-transparent animate-speed-rush" />
-          <div className="absolute top-[48%] left-0 w-full h-2.5 bg-gradient-to-r from-transparent via-[#FFAEC8] to-transparent animate-speed-rush" style={{ animationDelay: "0.06s" }} />
-          <div className="absolute top-[68%] left-0 w-full h-2 bg-gradient-to-r from-transparent via-[#A5D8FF] to-transparent animate-speed-rush" style={{ animationDelay: "0.12s" }} />
-          <div className="absolute top-[82%] left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-[#10B981] to-transparent animate-speed-rush" style={{ animationDelay: "0.18s" }} />
-        </div>
-      )}
-
-      {/* ── Ambient Background Layer ── */}
-      <div className="absolute top-1/6 -left-20 w-96 h-96 rounded-full bg-[#FFE57F]/45 blur-3xl pointer-events-none animate-pulse" />
-      <div className="absolute top-1/4 -right-20 w-96 h-96 rounded-full bg-[#FFAEC8]/40 blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: "1s" }} />
-      <div className="absolute -bottom-24 left-1/4 w-[30rem] h-[30rem] rounded-full bg-[#A5D8FF]/40 blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: "2s" }} />
-      <div className="absolute -top-20 right-1/4 w-80 h-80 rounded-full bg-[#D8B4FE]/35 blur-3xl pointer-events-none" />
-
-      {/* Tactile grid dots */}
-      <div
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
-        style={{
-          backgroundImage: "radial-gradient(#111111 1.5px, transparent 1.5px)",
-          backgroundSize: "26px 26px",
-        }}
-      />
-
-      {/* Floating cute symbols drifting across the background */}
-      {CUTE_FLOATERS.map((item, idx) => (
-        <span
-          key={idx}
-          className={`absolute ${item.size} opacity-40 animate-emoji-drift-1 pointer-events-none drop-shadow-sm`}
-          style={{
-            top: item.top,
-            left: item.left,
-            animationDelay: item.delay,
-            transform: `rotate(${item.rot})${item.flipX ? " scaleX(-1)" : ""}`,
+        {/* Audio Mute/Unmute Toggle */}
+        <button
+          onClick={() => {
+            const next = !soundOn;
+            setSoundOn(next);
+            setSoundEnabled(next);
           }}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FAF6EE]/90 hover:bg-[#FFE57F] backdrop-blur-md border border-[#252821]/20 rounded-full shadow-[2px_2px_0px_#252821] text-xs font-space font-bold text-[#252821] transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          title={soundOn ? "Mute interactive audio" : "Enable interactive audio"}
         >
-          {item.emoji}
-        </span>
-      ))}
+          <span className="text-sm leading-none">{soundOn ? "🔊" : "🔇"}</span>
+          <span className="hidden sm:inline text-[11px] font-space font-bold uppercase tracking-wider">
+            {soundOn ? "Audio On" : "Muted"}
+          </span>
+        </button>
+      </div>
 
-      {/* ── Central Main Card ── */}
+      {/* ── Central Main Welcoming Card ── */}
       <div
-        className={`relative z-10 w-[94vw] max-w-2xl lg:max-w-3xl min-h-[50vh] sm:min-h-[54vh] bg-white border-3 sm:border-4 border-black rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[10px_10px_0px_#111111] sm:shadow-[16px_16px_0px_#111111] flex flex-col justify-between items-center text-center transition-all duration-700 ease-out overflow-hidden ${
-          isExiting
-            ? "scale-[2.4] sm:scale-[3.0] opacity-0 blur-[2px] shadow-none"
-            : "scale-100 opacity-100"
-        }`}
+        className="relative z-10 w-[92vw] max-w-xl md:max-w-2xl my-auto pt-9 sm:pt-12 pb-5 sm:pb-7 px-4 sm:px-8 md:px-10 bg-[#FAF6EE] border-2 sm:border-3 border-[#252821] rounded-[1.75rem] sm:rounded-[2.5rem] shadow-[5px_5px_0px_#252821] sm:shadow-[8px_8px_0px_#252821] flex flex-col items-center text-center transition-all duration-500"
       >
-        {/* Top Caution / Speed Tape Accent */}
-        <div
-          className="w-full h-2 rounded-full border border-black overflow-hidden mb-3 opacity-90 shadow-brutal-xs"
-          style={{
-            backgroundImage: "repeating-linear-gradient(45deg, #FFE57F, #FFE57F 10px, #111111 10px, #111111 20px)",
-          }}
-        />
-
-        {/* Top Header Row of the Card */}
-        <div className="w-full flex items-center justify-between pb-3 sm:pb-4 border-b-2 border-black/10">
-          {/* Macaron Window Dots */}
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full bg-[#FFAEC8] border-2 border-black shadow-brutal-xs" />
-            <span className="w-3.5 h-3.5 rounded-full bg-[#FFE57F] border-2 border-black shadow-brutal-xs" />
-            <span className="w-3.5 h-3.5 rounded-full bg-[#A7F3D0] border-2 border-black shadow-brutal-xs" />
-          </div>
-
-          {/* Center Stage Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#FFE57F] border-2 border-black rounded-full font-space font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-brutal-xs -rotate-1 animate-turbo-pulse">
-            <span>⚡</span>
-            <span>{stepData.stageBadge}</span>
-            <span>🏁</span>
-          </div>
-
-          {/* Right Live Speedometer */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#A5D8FF] border-2 border-black rounded-full font-space font-black text-xs shadow-brutal-xs">
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-            <span>{currentSpeed}x SPEED</span>
-          </div>
+        {/* Subtle Decorative Botanical Corners */}
+        <div className="absolute top-4 left-4 text-[#A3B18A] opacity-40 pointer-events-none hidden sm:block">
+          <Leaf className="w-5 h-5 -rotate-45" />
+        </div>
+        <div className="absolute top-4 right-4 text-[#A3B18A] opacity-40 pointer-events-none hidden sm:block">
+          <Leaf className="w-5 h-5 rotate-45" />
         </div>
 
-        {/* Center Showcase: Cute Racing Mascot with Aviator Goggles & Speed Streaks */}
-        <div className="my-auto py-3 sm:py-5 flex flex-col items-center w-full relative">
-          
-          {/* Speed wind streaks flowing behind the mascot */}
-          <div className="absolute inset-x-8 top-12 pointer-events-none flex flex-col gap-3">
-            <div className="w-16 h-1 bg-[#FFE57F] rounded-full border border-black/20 animate-speed-streak-1 self-start ml-8" />
-            <div className="w-24 h-1 bg-[#FFAEC8] rounded-full border border-black/20 animate-speed-streak-2 self-end mr-8" />
-            <div className="w-12 h-1 bg-[#A5D8FF] rounded-full border border-black/20 animate-speed-streak-1 self-center" />
-          </div>
+        {/* ── 1. Mascot Character ("Sprout") with Interactive Eye Tracking & Quips ── */}
+        <div className="mt-8 sm:mt-10 mb-2 sm:mb-3">
+          <SproutMascot
+            progress={progress}
+            isReady={isReadyToEnter}
+            onMascotClick={() => {
+              // Clicking mascot also gently progresses the experience
+              if (!isReadyToEnter) {
+                setProgress((p) => Math.min(95, p + 8));
+              }
+            }}
+          />
+        </div>
 
-          {/* Steaming Mug Mascot in Racing Goggles */}
-          <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex flex-col items-center justify-center mb-0.5 sm:mb-1">
-            {/* Ambient soft glow ring */}
-            <div className="absolute inset-4 rounded-full bg-[#FFE57F]/65 blur-xl pointer-events-none" />
-
-            {/* Cute floating badges beside mascot */}
-            <div className="hidden md:flex items-center gap-1.5 absolute -left-16 top-10 bg-[#FFE57F] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs -rotate-6">
-              <span className="text-xl sm:text-2xl inline-block" style={{ transform: "scaleX(-1)" }}>🏎️</span>
-              <span>0-60 in 0.4s</span>
-            </div>
-            <div className="hidden md:flex absolute -right-14 top-10 bg-[#FFAEC8] border-2 border-black rounded-xl px-2.5 py-1 text-xs font-space font-black shadow-brutal-xs rotate-6">
-              ✨ VIP Guest
-            </div>
-
-            {/* Speed sparks & curls above mascot */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 pointer-events-none">
-              <span className="text-sm animate-steam-1">✨</span>
-              <span className="text-xs animate-steam-2">⚡</span>
-              <span className="text-sm animate-steam-1" style={{ animationDelay: "1.2s" }}>💨</span>
-            </div>
-
-            {/* Cute Mascot SVG with Racing Aviator Goggles */}
-            <div className="animate-cute-bounce flex items-center justify-center">
-              <svg viewBox="0 0 100 100" className="w-28 h-28 sm:w-36 sm:h-36 relative z-10 drop-shadow-md">
-                {/* Cup Handle */}
-                <path
-                  d="M68 40 C 86 40, 86 64, 68 64"
-                  fill="none"
-                  stroke="#111111"
-                  strokeWidth="4.5"
-                  strokeLinecap="round"
-                />
-                {/* Cup Body */}
-                <path
-                  d="M26 32 L74 32 C 72 68, 64 78, 50 78 C 36 78, 28 68, 26 32 Z"
-                  fill="#FFE57F"
-                  stroke="#111111"
-                  strokeWidth="4"
-                  strokeLinejoin="round"
-                />
-                {/* Cup Rim & Top */}
-                <ellipse cx="50" cy="32" rx="24" ry="6.5" fill="#FFFDF9" stroke="#111111" strokeWidth="3.5" />
-                <ellipse cx="50" cy="32" rx="18" ry="4" fill="#FFAEC8" />
-
-                {/* Racing Aviator Goggles Strap */}
-                <path d="M26 47 L74 47" stroke="#111111" strokeWidth="3.5" strokeLinecap="round" />
-
-                {/* Left Goggle Lens */}
-                <circle cx="41" cy="47" r="7.5" fill="#A5D8FF" stroke="#111111" strokeWidth="2.8" />
-                <circle cx="41" cy="47" r="4.5" fill="#FFFFFF" opacity="0.6" />
-                {/* Left Wink Pupil */}
-                <path d="M38 47 Q 41 44 44 47" fill="none" stroke="#111111" strokeWidth="2.2" strokeLinecap="round" />
-
-                {/* Right Goggle Lens */}
-                <circle cx="59" cy="47" r="7.5" fill="#A5D8FF" stroke="#111111" strokeWidth="2.8" />
-                <circle cx="59" cy="47" r="4.5" fill="#FFFFFF" opacity="0.6" />
-                {/* Right Wink Pupil */}
-                <path d="M56 47 Q 59 44 62 47" fill="none" stroke="#111111" strokeWidth="2.2" strokeLinecap="round" />
-
-                {/* Rosy Blush Cheeks with mini shine */}
-                <circle cx="33" cy="57" r="4.5" fill="#FFAEC8" />
-                <circle cx="67" cy="57" r="4.5" fill="#FFAEC8" />
-                <circle cx="32" cy="56" r="1.5" fill="#FFFFFF" />
-                <circle cx="66" cy="56" r="1.5" fill="#FFFFFF" />
-
-                {/* Happy Smiling Open Mouth */}
-                <path d="M46 57 Q 50 63 54 57" fill="none" stroke="#111111" strokeWidth="2.8" strokeLinecap="round" />
-
-                {/* Turbo Heart on Mascot */}
-                <path
-                  d="M50 69 C 50 69, 44 64, 44 61.5 C 44 59.5, 46.5 58.5, 48.5 60 L50 61.5 L51.5 60 C 53.5 58.5, 56 59.5, 56 61.5 C 56 64, 50 69, 50 69 Z"
-                  fill="#FFAEC8"
-                  stroke="#111111"
-                  strokeWidth="1.2"
-                />
-              </svg>
-            </div>
-
-            {/* Soft shadow */}
-            <div className="w-24 sm:w-28 h-3 bg-black/15 rounded-full blur-[1.5px] animate-cup-shadow -mt-1" />
-          </div>
-
-          {/* Minimal Welcoming Title - shifted a little upward */}
-          <h2 className="font-space font-black text-2xl sm:text-3xl md:text-4xl text-black tracking-tight -mt-2 sm:-mt-3 mb-2">
-            Welcome to Himang&apos;s Portfolio 👋
-          </h2>
-
-          {/* Minimal Stepped Status Capsule */}
-          <div className="inline-flex flex-col items-center gap-1 px-4 sm:px-6 py-2 bg-[#FAF7F0] border-2 border-black rounded-2xl shadow-brutal-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping" />
-              <p className="font-space font-extrabold text-xs sm:text-sm md:text-base text-gray-900 transition-all duration-150">
-                {stepData.text}
+        {/* ── 2. Sequential Welcoming Messages or Final Greeting ── */}
+        <div className="min-h-[70px] sm:min-h-[80px] flex flex-col items-center justify-center w-full px-2">
+          {isReadyToEnter ? (
+            // Final Welcome State
+            <div className="space-y-1 animate-slide-up">
+              <h2 className="font-space font-black text-2xl sm:text-3xl md:text-4xl text-[#252821] tracking-tight">
+                Alright, you&apos;re in! 🌿
+              </h2>
+              <p className="font-space font-semibold text-sm sm:text-base text-[#9C7655]">
+                Welcome to my portfolio. Let&apos;s explore something cool.
               </p>
             </div>
-            <span className="font-space font-bold text-[10px] sm:text-xs text-gray-500">
-              ⚡ {stepData.sub}
-            </span>
-          </div>
-
-          {/* 4-Quadrant Milestone HUD */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-3 sm:mt-4">
-            {/* Step 1: 25% Milestone Card */}
+          ) : (
+            // Sequential Greeting Steps (Messages 1 to 5)
             <div
-              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
-                progress >= 25 ? "bg-[#FFE57F] scale-102" : "bg-[#FAF7F0] opacity-60"
-              }`}
+              key={currentStepIdx}
+              className="space-y-1.5 animate-slide-up cursor-pointer"
+              onClick={() => {
+                // Clicking message advances naturally
+                setCurrentStepIdx((prev) => Math.min(WELCOME_MESSAGES.length - 1, prev + 1));
+              }}
+              title="Click to advance greeting"
             >
-              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
-                {progress >= 25 ? "✓ 25% Stage 1" : "Stage 1 (25%)"}
-              </span>
-              <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>⚡</span> Welcome
-              </span>
+              <h2 className="font-space font-black text-xl sm:text-2xl md:text-3xl text-[#252821] tracking-tight leading-snug">
+                {currentMsg.text}
+              </h2>
+              <p className="font-space font-medium text-xs sm:text-sm text-[#9C7655]">
+                {currentMsg.sub}
+              </p>
             </div>
-
-            {/* Step 2: 50% Milestone Card */}
-            <div
-              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
-                progress >= 50 ? "bg-[#FFAEC8] scale-102" : "bg-[#FAF7F0] opacity-60"
-              }`}
-            >
-              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
-                {progress >= 50 ? "✓ 50% Stage 2" : "Stage 2 (50%)"}
-              </span>
-              <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>💻</span> Projects
-              </span>
-            </div>
-
-            {/* Step 3: 75% Milestone Card */}
-            <div
-              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
-                progress >= 75 ? "bg-[#A5D8FF] scale-102" : "bg-[#FAF7F0] opacity-60"
-              }`}
-            >
-              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
-                {progress >= 75 ? "✓ 75% Stage 3" : "Stage 3 (75%)"}
-              </span>
-              <span className="font-space font-black text-xs sm:text-sm text-black flex items-center gap-1">
-                <span>✨</span> Polish
-              </span>
-            </div>
-
-            {/* Step 4: 100% Milestone Card */}
-            <div
-              className={`border-2 border-black rounded-xl p-2 shadow-brutal-xs flex flex-col items-center transition-all duration-300 ${
-                progress >= 100 ? "bg-[#A7F3D0] scale-102" : "bg-[#FAF7F0] opacity-60"
-              }`}
-            >
-              <span className="text-[10px] font-space font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1">
-                {progress >= 100 ? "✓ 100% Ready" : "Stage 4 (100%)"}
-              </span>
-              <span className="font-space font-black text-xs sm:text-sm text-[#065F46] flex items-center gap-1">
-                <span>🚀</span> Ready
-              </span>
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Bottom Section: Segmented 25% Tachometer Bar & Controls */}
-        <div className="w-full pt-2 sm:pt-3 border-t-2 border-black/10">
-          {/* Big Animated Racing Car Track Runner */}
-          <div className="relative w-full h-12 mb-1 select-none pointer-events-none">
-            <div
-              className="absolute -top-2 transition-all duration-100 ease-out flex items-center"
-              style={{
-                left: `clamp(0px, calc(${progress}% - 40px), calc(100% - 56px))`,
-              }}
-            >
-              {/* Exhaust Smoke Trail */}
-              {progress > 5 && (
-                <span className="text-lg sm:text-xl mr-1 animate-pulse opacity-80 select-none">
-                  💨
-                </span>
-              )}
-              {/* Big High-Impact Racing Car (Front facing right, back facing left) */}
-              <span
-                className="text-4xl sm:text-5xl drop-shadow-md select-none inline-block filter"
-                style={{ transform: "scaleX(-1)" }}
-              >
-                🏎️
-              </span>
-              {/* Turbo Spark at High Speed */}
-              {progress >= 75 && (
-                <span className="text-base text-[#FFE57F] animate-ping ml-0.5 select-none font-bold">
-                  ⚡
-                </span>
-              )}
-            </div>
-          </div>
+        {/* ── 3. Botanical Loading Progress / Plant Growing Indicator ── */}
+        <div className="my-2 sm:my-3 w-full flex justify-center">
+          <GrowingPlant
+            progress={progress}
+            isReady={isReadyToEnter}
+            stageName={
+              isReadyToEnter
+                ? "Experience bloomed!"
+                : WELCOME_MESSAGES[currentStepIdx]?.sub
+            }
+          />
+        </div>
 
-          {/* Segmented Candy-Striped Progress Bar with 25% Notch Lines */}
-          <div className="relative w-full h-7 sm:h-8 bg-[#FAF7F0] border-3 border-black rounded-full p-1 shadow-brutal-xs overflow-hidden mb-3">
-            {/* 25%, 50%, 75% quadrant divider notches */}
-            <div className="absolute inset-y-0 left-1/4 w-[2px] bg-black/30 pointer-events-none z-20" />
-            <div className="absolute inset-y-0 left-2/4 w-[2px] bg-black/30 pointer-events-none z-20" />
-            <div className="absolute inset-y-0 left-3/4 w-[2px] bg-black/30 pointer-events-none z-20" />
-
-            {/* Progress Fill */}
-            <div
-              className="h-full bg-gradient-to-r from-[#FFE57F] via-[#FFAEC8] to-[#A5D8FF] rounded-full animate-candy-stripe transition-all duration-100 ease-out flex items-center justify-end pr-2 relative z-10"
-              style={{ width: `${progress}%` }}
-            >
-              {progress > 8 && (
-                <span className="text-xs select-none pointer-events-none font-bold text-black/70">
-                  ⚡
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* Footer Controls Row */}
-          <div className="flex items-center justify-between gap-3">
-            {/* Percentage & Speed Pill */}
-            <span className="bg-[#FFE57F] px-3 sm:px-4 py-1.5 rounded-xl border-2 border-black shadow-brutal-xs font-space font-black text-xs sm:text-sm text-black">
-              {progress}% · {currentSpeed}x SPEED
-            </span>
-
-            {/* 25% Step Indicators */}
-            <div className="hidden sm:flex items-center gap-1.5">
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 25 ? "bg-[#FFE57F] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
-                25%
-              </span>
-              <span className="text-xs text-gray-400">➔</span>
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 50 ? "bg-[#FFAEC8] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
-                50%
-              </span>
-              <span className="text-xs text-gray-400">➔</span>
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 75 ? "bg-[#A5D8FF] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
-                75%
-              </span>
-              <span className="text-xs text-gray-400">➔</span>
-              <span className={`px-2 py-0.5 rounded border text-[11px] font-bold ${progress >= 100 ? "bg-[#A7F3D0] border-black text-black" : "bg-white/60 border-black/30 text-gray-400"}`}>
-                100%
-              </span>
-            </div>
-
-            {/* Tactile Skip Button */}
+        {/* ── 4. Final Welcome Interaction (ENTER MY WORLD Button) ── */}
+        {isReadyToEnter ? (
+          <div className="w-full pt-3 sm:pt-4 flex flex-col items-center animate-slide-up">
             <button
-              onClick={completeLoading}
-              className="px-4 py-1.5 bg-[#FAF7F0] hover:bg-[#FFAEC8] border-2 border-black rounded-xl text-xs sm:text-sm font-space font-black text-black shadow-brutal-xs hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+              onClick={handleEnterWorld}
+              className="relative group inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:px-10 sm:py-4 bg-[#355E3B] hover:bg-[#2B4C30] text-[#F5F1E8] font-space font-black text-sm sm:text-base tracking-wider uppercase rounded-full border-2 border-[#252821] shadow-[4px_4px_0px_#252821] hover:-translate-y-1 hover:shadow-[6px_6px_0px_#252821] active:translate-y-0.5 active:shadow-[2px_2px_0px_#252821] transition-all duration-200 cursor-pointer overflow-hidden focus:outline-none focus:ring-4 focus:ring-[#A3B18A]/50"
             >
-              <span>Skip</span>
-              <span>➔</span>
+              {/* Sliding Tiny Leaf Across Button on Hover */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="absolute top-1/2 -translate-y-1/2 text-sm select-none inline-block animate-leaf-glide">
+                  🍃
+                </span>
+              </div>
+
+              {/* Button Text */}
+              <span className="relative z-10 flex items-center gap-2">
+                <span>ENTER MY WORLD</span>
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
+              </span>
             </button>
           </div>
-        </div>
+        ) : (
+          /* Subtle Sequential Dots Indicator */
+          <div className="flex items-center gap-1.5 pt-2">
+            {WELCOME_MESSAGES.map((_, idx) => (
+              <span
+                key={idx}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentStepIdx
+                    ? "w-6 bg-[#355E3B]"
+                    : idx < currentStepIdx
+                    ? "w-2 bg-[#A3B18A]"
+                    : "w-2 bg-[#D8D2C4]"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
+      {/* ── Footer Subtle Aesthetic Note ── */}
+      <div className="absolute bottom-3 sm:bottom-4 inset-x-4 text-center pointer-events-none">
+        <p className="font-space font-medium text-[11px] sm:text-xs text-[#252821]/60 tracking-wide">
+          Crafted with care, nature-inspired design &amp; clean code ✨
+        </p>
       </div>
     </div>
   );
